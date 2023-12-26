@@ -218,7 +218,7 @@
                             <Label
                                 Name="Label_MainTitle"
                                 Grid.Column="0"
-                                Content="{Binding AppName, Source={x:Static root:CurrentVersion.Instance}, Mode=OneTime}"
+                                Content="{Binding DisplayAppName, Source={x:Static root:CurrentVersion.Instance}, Mode=OneTime}"
                                 Style="{StaticResource Style.Label.Title.AppName}" />
 
                             <Label

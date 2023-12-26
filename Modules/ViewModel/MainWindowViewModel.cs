@@ -62,7 +62,7 @@ internal partial class MainWindowViewModel : ModdingViewModelBase
             return;
         }
 
-        ChangeMod(GenV8Stream(), isCompressed: false);
+        ChangeMod(GenV8Stream(), isCompressed: true);
     }
 
     [RelayCommand]

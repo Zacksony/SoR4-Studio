@@ -13,10 +13,10 @@ internal abstract partial class ModdingViewModelBase : ObservableObject
         ModChangedAction += OnModChanged;
     }
 
-    protected static GameDataIO modIO = new(GenV8Stream(), isCompressed: false);
+    protected static GameDataIO modIO = new(GenV8Stream(), isCompressed: true);
     public static GameData Mod => modIO.GameData;
 
-    protected static readonly GameDataIO v8IO = new(GenV8Stream(), isCompressed: false);
+    protected static readonly GameDataIO v8IO = new(GenV8Stream(), isCompressed: true);
     public static GameData V8 => v8IO.GameData;
 
     public static void ChangeMod(Stream stream, bool isCompressed)
