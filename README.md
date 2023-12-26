@@ -16,3 +16,19 @@ A SoR4 modding tool with a user-friendly interface.
 
 ## Credits
 
+### For providing the meaning of fields inside bigile
+
+- MoonLightFox
+- FuzzYetPatchy
+- Honganqi
+- Bragdras
+
+### For providing lots of technological help
+
+- FuzzYetPatchy
+
+### For making tools that helped me understand the structure of fields
+
+- FuzzYetPatchy
+- JadingTsunami
+
