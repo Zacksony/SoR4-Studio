@@ -1,0 +1,376 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:localWindows="clr-namespace:SoR4_Studio.Modules.Windows"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <Style
+        x:Key="Style.Label.Title.AppName"
+        TargetType="{x:Type Label}">
+
+        <Setter Property="Foreground" Value="LightGray" />
+
+        <Setter Property="FontWeight" Value="Light" />
+
+        <Setter Property="FontSize" Value="18" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+        <Setter Property="Margin" Value="8,0,0,0" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.Label.Title.AppVersion"
+        TargetType="{x:Type Label}">
+
+        <Setter Property="Foreground" Value="#AAAAAA" />
+
+        <Setter Property="FontWeight" Value="Light" />
+
+        <Setter Property="FontSize" Value="18" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.Common.Text"
+        TargetType="{x:Type Label}">
+
+        <Setter Property="Foreground" Value="LightGray" />
+
+        <Setter Property="FontWeight" Value="Light" />
+
+        <Setter Property="FontSize" Value="15" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.Common.ShallowText"
+        TargetType="{x:Type Label}">
+
+        <Setter Property="Foreground" Value="Gray" />
+
+        <Setter Property="FontWeight" Value="Light" />
+
+        <Setter Property="FontSize" Value="13" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.Common.DialogTitle"
+        TargetType="{x:Type Label}">
+
+        <Setter Property="Foreground" Value="#77AABB" />
+
+        <Setter Property="FontWeight" Value="Normal" />
+
+        <Setter Property="FontSize" Value="18" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.Label.OptionTitle"
+        TargetType="{x:Type Label}">
+
+        <Setter Property="Foreground" Value="LightGray" />
+
+        <Setter Property="FontWeight" Value="Light" />
+
+        <Setter Property="FontSize" Value="18" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.MyDataGrid"
+        TargetType="{x:Type localWindows:MyDataGrid}">
+
+        <Setter Property="AutoGenerateColumns" Value="False" />
+
+        <Setter Property="Background" Value="#04FFFFFF" />
+
+        <Setter Property="BorderThickness" Value="0" />
+
+        <Setter Property="BorderBrush" Value="#00000000" />
+
+        <Setter Property="CanUserAddRows" Value="False" />
+
+        <Setter Property="CanUserDeleteRows" Value="False" />
+
+        <Setter Property="CanUserReorderColumns" Value="False" />
+
+        <Setter Property="CanUserResizeColumns" Value="False" />
+
+        <Setter Property="CanUserResizeRows" Value="False" />
+
+        <Setter Property="CanUserSortColumns" Value="False" />
+
+        <Setter Property="Focusable" Value="True" />
+
+        <Setter Property="ColumnWidth" Value="Auto" />
+
+        <Setter Property="GridLinesVisibility" Value="None" />
+
+        <Setter Property="SelectionMode" Value="Single" />
+
+        <Setter Property="SelectionUnit" Value="Cell" />
+
+        <Setter Property="CellStyle" Value="{DynamicResource Style.DataGrid.CommonCell}" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.DataGrid.CommonCell"
+        TargetType="{x:Type DataGridCell}">
+
+        <Style.Triggers>
+
+            <Trigger Property="IsSelected" Value="True">
+
+                <Setter Property="Background" Value="#08FFFFFF" />
+                <Setter Property="BorderBrush" Value="#29FFFFFF" />
+                <Setter Property="BorderThickness" Value="1" />
+
+            </Trigger>
+
+        </Style.Triggers>
+
+    </Style>
+
+    <Style
+        x:Key="Style.DataGrid.SilentCell"
+        TargetType="{x:Type DataGridCell}">
+
+        <Style.Triggers>
+
+            <Trigger Property="IsSelected" Value="True">
+
+                <Setter Property="Background" Value="#00FFFFFF" />
+                <Setter Property="BorderBrush" Value="#00FFFFFF" />
+                <Setter Property="BorderThickness" Value="0" />
+
+            </Trigger>
+
+            <Trigger Property="IsSelected" Value="False">
+
+                <Setter Property="Background" Value="#00FFFFFF" />
+                <Setter Property="BorderBrush" Value="#00FFFFFF" />
+                <Setter Property="BorderThickness" Value="0" />
+
+            </Trigger>
+
+        </Style.Triggers>
+
+    </Style>
+
+    <Style
+        x:Key="Style.DataGrid.ColumnHeader"
+        BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
+        TargetType="{x:Type DataGridColumnHeader}">
+
+        <Setter Property="Foreground" Value="LightGray" />
+
+        <Setter Property="FontWeight" Value="UltraLight" />
+
+        <Setter Property="FontSize" Value="15" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+        <Setter Property="HorizontalAlignment" Value="Center" />
+
+        <Setter Property="Background" Value="#00000000" />
+
+        <Setter Property="Height" Value="49" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.DataGrid.NumberTextBlock"
+        BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+        TargetType="{x:Type TextBlock}">
+
+        <Setter Property="Margin" Value="10,0,18,0" />
+
+        <Setter Property="FontFamily" Value="Courier New" />
+
+        <Setter Property="Foreground" Value="LightGray" />
+
+        <Setter Property="FontSize" Value="15" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+        <Setter Property="HorizontalAlignment" Value="Right" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.DataGrid.StringTextBlock"
+        BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+        TargetType="{x:Type TextBlock}">
+
+        <Setter Property="Margin" Value="18,0,10,0" />
+
+        <Setter Property="FontFamily" Value="Courier New" />
+
+        <Setter Property="Foreground" Value="LightGray" />
+
+        <Setter Property="FontSize" Value="15" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+        <Setter Property="HorizontalAlignment" Value="Left" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.DataGrid.NumberTextBlock.Editing"
+        BasedOn="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+        TargetType="{x:Type TextBox}">
+
+        <Setter Property="Margin" Value="10,0,10,0" />
+
+        <Setter Property="FontFamily" Value="Courier New" />
+
+        <Setter Property="Foreground" Value="LightGray" />
+
+        <Setter Property="FontSize" Value="15" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
+
+        <Setter Property="localWindows:TextBoxAutoSelectHelper.SelectAllWhenGotFocus" Value="True" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.DataGrid.StringTextBlock.Editing"
+        BasedOn="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+        TargetType="{x:Type TextBox}">
+
+        <Setter Property="Margin" Value="10,0,10,0" />
+
+        <Setter Property="FontFamily" Value="Courier New" />
+
+        <Setter Property="Foreground" Value="LightGray" />
+
+        <Setter Property="FontSize" Value="15" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+
+        <Setter Property="localWindows:TextBoxAutoSelectHelper.SelectAllWhenGotFocus" Value="True" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.Button"
+        BasedOn="{StaticResource MaterialDesignFlatLightButton}"
+        TargetType="{x:Type Button}">
+
+        <Setter Property="Width" Value="Auto" />
+
+        <Setter Property="Height" Value="36" />
+
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="12" />
+
+        <Setter Property="Background" Value="#1F1F22" />
+
+        <Setter Property="BorderBrush" Value="#2E2E30" />
+
+        <Setter Property="BorderThickness" Value="1" />
+
+        <Setter Property="Cursor" Value="Arrow" />
+
+        <Setter Property="Focusable" Value="True" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.ButtonFlat"
+        BasedOn="{StaticResource MaterialDesignFlatLightButton}"
+        TargetType="{x:Type Button}">
+
+        <Setter Property="Width" Value="Auto" />
+
+        <Setter Property="Height" Value="36" />
+
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="12" />
+
+        <Setter Property="Cursor" Value="Arrow" />
+
+        <Setter Property="Focusable" Value="True" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.ButtonControl"
+        BasedOn="{StaticResource MaterialDesignFlatLightButton}"
+        TargetType="{x:Type Button}">
+
+        <Setter Property="Width" Value="Auto" />
+
+        <Setter Property="Height" Value="36" />
+
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="16" />
+
+        <Setter Property="Background" Value="#404040" />
+
+        <Setter Property="BorderBrush" Value="#727777" />
+
+        <Setter Property="BorderThickness" Value="1" />
+
+        <Setter Property="Cursor" Value="Arrow" />
+
+        <Setter Property="Focusable" Value="True" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.Common.TextBox"
+        BasedOn="{StaticResource MaterialDesignTextBox}"
+        TargetType="{x:Type TextBox}">
+
+        <Setter Property="FontFamily" Value="Courier New" />
+
+        <Setter Property="Foreground" Value="LightGray" />
+
+        <Setter Property="FontSize" Value="15" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
+
+        <Setter Property="localWindows:TextBoxAutoSelectHelper.SelectAllWhenGotFocus" Value="True" />
+
+    </Style>
+
+    <Style
+        x:Key="Style.Common.ComboBox"
+        BasedOn="{StaticResource MaterialDesignComboBox}"
+        TargetType="{x:Type ComboBox}">
+
+        <Setter Property="FontSize" Value="15" />
+
+        <Setter Property="FontWeight" Value="Light" />
+
+        <Setter Property="Foreground" Value="LightGray" />
+
+        <Setter Property="Focusable" Value="False" />
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+    </Style>
+
+</ResourceDictionary>

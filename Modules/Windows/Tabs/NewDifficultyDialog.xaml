@@ -1,0 +1,123 @@
+﻿<UserControl
+    x:Class="SoR4_Studio.Modules.Windows.Tabs.NewDifficultyDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SoR4_Studio.Modules.Windows.Tabs"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:vm="clr-namespace:SoR4_Studio.Modules.ViewModel"
+    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+    MinWidth="220"
+    MinHeight="150"
+    mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <vm:NewDifficultyDialogViewModel />
+    </UserControl.DataContext>
+
+    <Grid Margin="16">
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+
+        </Grid.RowDefinitions>
+
+        <Label
+            Grid.Row="0"
+            Content="{DynamicResource String.Difficulty.Add.Title}"
+            Style="{StaticResource Style.Common.DialogTitle}" />
+
+        <Grid Grid.Row="2">
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+
+            </Grid.ColumnDefinitions>
+
+            <Label
+                Grid.Column="0"
+                Content="{DynamicResource String.Difficulty.Add.BasedOn}"
+                Style="{StaticResource Style.Common.Text}" />
+
+            <ComboBox
+                Name="ComboBox_NewDifficultyBasedOn"
+                Grid.Column="2"
+                SelectedIndex="{Binding SelectedIndex}"
+                Style="{StaticResource Style.Common.ComboBox}">
+
+                <ComboBoxItem Content="{DynamicResource String.Difficulty.Add.Easy}" />
+                <ComboBoxItem Content="{DynamicResource String.Difficulty.Add.Normal}" />
+                <ComboBoxItem Content="{DynamicResource String.Difficulty.Add.Hard}" />
+                <ComboBoxItem Content="{DynamicResource String.Difficulty.Add.Hardest}" />
+                <ComboBoxItem Content="{DynamicResource String.Difficulty.Add.Mania}" />
+                <ComboBoxItem Content="{DynamicResource String.Difficulty.Add.ManiaPlus}" />
+
+            </ComboBox>
+
+        </Grid>
+
+        <StackPanel
+            Grid.Row="4"
+            FlowDirection="RightToLeft"
+            Orientation="Horizontal">
+
+            <Button
+                Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+                IsCancel="True"
+                Style="{StaticResource Style.ButtonControl}">
+
+                <Button.Content>
+
+                    <Label
+                        Content="{DynamicResource String.Common.Cancel}"
+                        FontSize="14"
+                        Style="{StaticResource Style.Common.Text}" />
+
+                </Button.Content>
+
+                <Button.CommandParameter>
+
+                    <system:Boolean>False</system:Boolean>
+
+                </Button.CommandParameter>
+
+            </Button>
+
+            <Button
+                Margin="8,0,0,0"
+                Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+                IsDefault="True"
+                Style="{StaticResource Style.ButtonControl}">
+
+                <Button.Content>
+
+                    <Label
+                        Content="{DynamicResource String.Common.Accept}"
+                        FontSize="14"
+                        Style="{StaticResource Style.Common.Text}" />
+
+                </Button.Content>
+
+                <Button.CommandParameter>
+
+                    <system:Boolean>True</system:Boolean>
+
+                </Button.CommandParameter>
+
+            </Button>
+
+        </StackPanel>
+
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,463 @@
+﻿<UserControl
+    x:Class="SoR4_Studio.Modules.Windows.Tabs.DifficultyTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SoR4_Studio.Modules.Windows.Tabs"
+    xmlns:localWindows="clr-namespace:SoR4_Studio.Modules.Windows"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="clr-namespace:System;assembly=mscorlib"
+    xmlns:vm="clr-namespace:SoR4_Studio.Modules.ViewModel"
+    d:DesignHeight="480"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <vm:DifficultyListViewModel />
+    </UserControl.DataContext>
+
+    <Grid Margin="16,16,16,16">
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="*" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="Auto" />
+
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0">
+
+            <localWindows:ScrollViewerAnimation
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto">
+
+                <localWindows:MyDataGrid
+                    x:Name="DataGrid_Difficulty"
+                    CellStyle="{StaticResource Style.DataGrid.CommonCell}"
+                    ColumnHeaderStyle="{StaticResource Style.DataGrid.ColumnHeader}"
+                    HeadersVisibility="Column"
+                    ItemsSource="{Binding DifficultyList}"
+                    RowHeight="32"
+                    Style="{StaticResource Style.MyDataGrid}">
+
+                    <DataGrid.Columns>
+
+                        <DataGridTemplateColumn CellStyle="{StaticResource Style.DataGrid.SilentCell}">
+
+                            <DataGridTemplateColumn.CellTemplate>
+
+                                <DataTemplate DataType="Grid">
+
+                                    <Grid>
+
+                                        <Grid.ColumnDefinitions>
+
+                                            <ColumnDefinition Width="0" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="4" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="4" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="6" />
+
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button
+                                            Name="Button_DifficultyList_Delete"
+                                            Grid.Column="1"
+                                            Width="24"
+                                            Height="24"
+                                            VerticalAlignment="Center"
+                                            Click="Button_DifficultyList_Delete_Click"
+                                            Cursor="Arrow"
+                                            Foreground="DarkGray"
+                                            Style="{StaticResource MaterialDesignIconButton}">
+
+                                            <materialDesign:PackIcon
+                                                Width="19"
+                                                Height="19"
+                                                Kind="Close" />
+
+                                        </Button>
+
+                                        <Button
+                                            Name="Button_DifficultyList_Up"
+                                            Grid.Column="3"
+                                            Width="24"
+                                            Height="24"
+                                            VerticalAlignment="Center"
+                                            Click="Button_DifficultyList_Up_Click"
+                                            Cursor="Arrow"
+                                            Foreground="DarkGray"
+                                            Style="{StaticResource MaterialDesignIconButton}">
+
+                                            <materialDesign:PackIcon Kind="ChevronUp" />
+
+                                        </Button>
+
+                                        <Button
+                                            Name="Button_DifficultyList_Down"
+                                            Grid.Column="5"
+                                            Width="24"
+                                            Height="24"
+                                            VerticalAlignment="Center"
+                                            Click="Button_DifficultyList_Down_Click"
+                                            Cursor="Arrow"
+                                            Foreground="DarkGray"
+                                            Style="{StaticResource MaterialDesignIconButton}">
+
+                                            <materialDesign:PackIcon Kind="ChevronDown" />
+
+                                        </Button>
+
+                                    </Grid>
+
+                                </DataTemplate>
+
+                            </DataGridTemplateColumn.CellTemplate>
+
+                        </DataGridTemplateColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding DifficultyName}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.StringTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.StringTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.DifficultyName}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <DataGridTemplateColumn CellStyle="{StaticResource Style.DataGrid.SilentCell}">
+
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.DifficultyDesc}" />
+                            </DataGridTemplateColumn.Header>
+
+                            <DataGridTemplateColumn.CellTemplate>
+
+                                <DataTemplate DataType="Button">
+
+                                    <Button
+                                        Name="Button_DifficultyList_DescEdit"
+                                        Width="24"
+                                        Height="24"
+                                        VerticalAlignment="Center"
+                                        Click="Button_DifficultyList_DescEdit_Click"
+                                        Cursor="Arrow"
+                                        Foreground="DarkGray"
+                                        Style="{StaticResource MaterialDesignIconButton}">
+
+                                        <materialDesign:PackIcon
+                                            Width="19"
+                                            Height="19"
+                                            Kind="PencilOutline" />
+
+                                    </Button>
+
+                                </DataTemplate>
+
+                            </DataGridTemplateColumn.CellTemplate>
+
+                        </DataGridTemplateColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding StartingLivesStoryMode.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.StartLifeStoryMode}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding StartingLivesArcade.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.StartLifeArcade}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding StartingStars.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.StartStar}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding RankScoreMultip.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.RankMultip}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding ExtraLifePointsStoryMode.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.ExtraLifePointsStory}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding ExtraLifePointsArcade.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.ExtraLifePointsArcade}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding GreenHpUsageMultip.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.GreenHpUsageMultip}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding IncomeDamageMultip.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.IncomeDamageMultip}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding GlobalSpawnMultip.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.GlobalSpawnMultip}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding EnemyHpMultip.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.EnemyHpMultip}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding EnemySpeedBoost.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.EnemySpeedBoost}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding EnemyActivity.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.EnemyActivity}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding MaxAttacker.Value}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.MaxAttacker}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+
+                        <!--
+                        <materialDesign:DataGridTextColumn
+                            Binding="{localWindows:EditableBinding AggroSlots}"
+                            EditingElementStyle="{StaticResource Style.DataGrid.NumberTextBlock.Editing}"
+                            ElementStyle="{StaticResource Style.DataGrid.NumberTextBlock}">
+
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource String.Difficulty.List.AggroSlots}" />
+                            </DataGridTextColumn.Header>
+
+                        </materialDesign:DataGridTextColumn>
+                        -->
+
+                    </DataGrid.Columns>
+
+                </localWindows:MyDataGrid>
+
+            </localWindows:ScrollViewerAnimation>
+
+        </Border>
+
+        <Grid Grid.Row="2">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="15" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="15" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="15" />
+
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Name="Button_Difficulty_Add"
+                    Grid.Column="1"
+                    Command="{Binding AddCommand}"
+                    Style="{StaticResource Style.Button}">
+
+                    <Button.Content>
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Foreground="gray"
+                                Kind="Add" />
+
+                            <Label
+                                Grid.Column="1"
+                                Content="{DynamicResource String.Difficulty.Add}"
+                                Style="{StaticResource Style.Common.Text}" />
+
+                        </Grid>
+
+                    </Button.Content>
+
+                </Button>
+
+                <Button
+                    Name="Button_Difficulty_Reverse"
+                    Grid.Column="3"
+                    Command="{Binding ReverseCommand}"
+                    IsEnabled="{Binding IsNotEmpty}"
+                    Style="{StaticResource Style.Button}">
+
+                    <Button.Content>
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Foreground="gray"
+                                Kind="Autorenew" />
+
+                            <Label
+                                Grid.Column="1"
+                                Content="{DynamicResource String.Difficulty.Reverse}"
+                                Style="{StaticResource Style.Common.Text}" />
+
+                        </Grid>
+
+                    </Button.Content>
+
+                </Button>
+
+                <Button
+                    Name="Button_Difficulty_Clear"
+                    Grid.Column="5"
+                    Command="{Binding ClearCommand}"
+                    IsEnabled="{Binding IsNotEmpty}"
+                    Style="{StaticResource Style.Button}">
+
+                    <Button.Content>
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon
+                                Grid.Column="0"
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                Foreground="gray"
+                                Kind="DeleteOutline" />
+
+                            <Label
+                                Grid.Column="1"
+                                Content="{DynamicResource String.Difficulty.Clear}"
+                                Style="{StaticResource Style.Common.Text}" />
+
+                        </Grid>
+
+                    </Button.Content>
+
+                </Button>
+
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

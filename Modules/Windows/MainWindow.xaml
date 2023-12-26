@@ -1,0 +1,857 @@
+﻿<Window
+    x:Class="SoR4_Studio.Modules.Windows.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SoR4_Studio.Modules.Windows"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prop="clr-namespace:SoR4_Studio.Properties"
+    xmlns:root="clr-namespace:SoR4_Studio"
+    xmlns:tabs="clr-namespace:SoR4_Studio.Modules.Windows.Tabs"
+    xmlns:vm="clr-namespace:SoR4_Studio.Modules.ViewModel"
+    Title="SoR4 Studio"
+    Width="{Binding WindowWidth, Source={x:Static prop:UserSettings.Default}, Mode=TwoWay}"
+    Height="{Binding WindowHeight, Source={x:Static prop:UserSettings.Default}, Mode=TwoWay}"
+    MinWidth="600"
+    MinHeight="420"
+    Activated="Window_Activated"
+    AllowsTransparency="True"
+    Background="{x:Null}"
+    Deactivated="Window_Deactivated"
+    FontFamily="Microsoft YaHei UI"
+    Foreground="{x:Null}"
+    Icon="..\..\Resources\1up_trans.png"
+    ResizeMode="CanResize"
+    StateChanged="Window_StateChanged"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+
+        <ResourceDictionary>
+
+            <Storyboard x:Key="CloseWindow">
+
+                <DoubleAnimation
+                    FillBehavior="Stop"
+                    Storyboard.TargetProperty="Opacity"
+                    From="1"
+                    To="0"
+                    Duration="0:0:0.3" />
+
+                <DoubleAnimation
+                    FillBehavior="Stop"
+                    Storyboard.TargetName="VeryTop"
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleX)"
+                    From="1"
+                    To="0.8"
+                    Duration="0:0:0.3" />
+
+                <DoubleAnimation
+                    FillBehavior="Stop"
+                    Storyboard.TargetName="VeryTop"
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleY)"
+                    From="1"
+                    To="0.8"
+                    Duration="0:0:0.3" />
+
+            </Storyboard>
+
+            <Storyboard x:Key="OpenWindow">
+
+                <DoubleAnimation
+                    FillBehavior="Stop"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0"
+                    To="1"
+                    Duration="0:0:0.3" />
+
+                <DoubleAnimation
+                    FillBehavior="Stop"
+                    Storyboard.TargetName="VeryTop"
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleX)"
+                    From="0.8"
+                    To="1"
+                    Duration="0:0:0.3" />
+
+                <DoubleAnimation
+                    FillBehavior="Stop"
+                    Storyboard.TargetName="VeryTop"
+                    Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleY)"
+                    From="0.8"
+                    To="1"
+                    Duration="0:0:0.3" />
+
+            </Storyboard>
+
+            <Storyboard x:Key="MinimizeWindow">
+
+                <DoubleAnimation
+                    FillBehavior="Stop"
+                    Storyboard.TargetName="VeryTop"
+                    Storyboard.TargetProperty="Opacity"
+                    From="1"
+                    To="0"
+                    Duration="0:0:0.1" />
+
+            </Storyboard>
+
+            <Storyboard x:Key="ShowWindow">
+
+                <DoubleAnimation
+                    FillBehavior="Stop"
+                    Storyboard.TargetName="VeryTop"
+                    Storyboard.TargetProperty="Opacity"
+                    From="0"
+                    To="1"
+                    Duration="0:0:0.1" />
+
+            </Storyboard>
+
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+    <WindowChrome.WindowChrome>
+
+        <WindowChrome
+            CaptionHeight="0"
+            CornerRadius="0"
+            GlassFrameThickness="-1"
+            ResizeBorderThickness="18" />
+
+    </WindowChrome.WindowChrome>
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Grid
+        Name="VeryTop"
+        Margin="0"
+        RenderTransformOrigin="0.5,0.5">
+
+        <Grid.RenderTransform>
+
+            <TransformGroup>
+
+                <ScaleTransform ScaleX="1" ScaleY="1" />
+
+                <SkewTransform />
+
+                <RotateTransform />
+
+                <TranslateTransform />
+
+            </TransformGroup>
+
+        </Grid.RenderTransform>
+
+        <!--  阴影与圆角  -->
+
+        <Border
+            Name="WindowShadowBorder"
+            Margin="16"
+            Background="#17171A"
+            BorderBrush="#555560"
+            BorderThickness="1"
+            CornerRadius="8">
+
+            <Border.Effect>
+
+                <DropShadowEffect
+                    BlurRadius="16"
+                    Opacity="0.8"
+                    ShadowDepth="0"
+                    Color="Black" />
+
+            </Border.Effect>
+
+            <materialDesign:DialogHost Identifier="Root">
+
+                <!--  窗口内容的主Grid  -->
+
+                <Grid
+                    Name="ClientGrid"
+                    Opacity="1">
+
+                    <Grid.RowDefinitions>
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="8" />
+
+                    </Grid.RowDefinitions>
+
+                    <!--  标题栏  -->
+
+                    <Border
+                        Name="Border_Top"
+                        Grid.Row="0"
+                        Background="#141417"
+                        CornerRadius="8,8,0,0"
+                        MouseLeave="Border_Top_MouseLeave"
+                        MouseLeftButtonDown="Border_Top_MouseLeftButtonDown"
+                        MouseLeftButtonUp="Border_Top_MouseLeftButtonUp"
+                        MouseMove="Border_Top_MouseMove">
+
+                        <Grid
+                            Height="40"
+                            Margin="12,12,8,8">
+
+                            <Grid.ColumnDefinitions>
+
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="46" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="46" />
+                                <ColumnDefinition Width="46" />
+                                <ColumnDefinition Width="46" />
+
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Name="Label_MainTitle"
+                                Grid.Column="0"
+                                Content="{Binding AppName, Source={x:Static root:CurrentVersion.Instance}, Mode=OneTime}"
+                                Style="{StaticResource Style.Label.Title.AppName}" />
+
+                            <Label
+                                Name="Label_Version"
+                                Grid.Column="1"
+                                Style="{StaticResource Style.Label.Title.AppVersion}">
+
+                                <Label.Content>
+                                    <TextBlock Text="{Binding DisplayVersion, Source={x:Static root:CurrentVersion.Instance}, Mode=OneTime}" />
+                                </Label.Content>
+
+                            </Label>
+
+                            <Button
+                                Name="Button_Github"
+                                Grid.Column="2"
+                                Width="32"
+                                Height="32"
+                                VerticalAlignment="Center"
+                                Command="{Binding GithubCommand}"
+                                Cursor="Hand"
+                                Focusable="True"
+                                Foreground="LightSlateGray"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="{DynamicResource String.Title.Button.Github}"
+                                ToolTipService.InitialShowDelay="500">
+
+                                <materialDesign:PackIcon Kind="Github" />
+
+                            </Button>
+
+                            <Label
+                                Name="Label_UpdateFound"
+                                Grid.Column="3"
+                                Content="{DynamicResource String.UpdateAvailable}"
+                                Style="{StaticResource Style.Common.DialogTitle}"
+                                Visibility="Hidden" />
+
+                            <Button
+                                Name="Button_Min"
+                                Grid.Column="5"
+                                Width="32"
+                                Height="32"
+                                Click="Button_Min_Click"
+                                Content="{StaticResource Image.ControlMin}"
+                                Cursor="Arrow"
+                                Focusable="True"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="{DynamicResource String.Title.Button.Minimize}" />
+
+                            <Button
+                                Name="Button_Max"
+                                Grid.Column="6"
+                                Width="32"
+                                Height="32"
+                                Click="Button_Max_Click"
+                                Content="{StaticResource Image.ControlMax}"
+                                Cursor="Arrow"
+                                Focusable="True"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="{DynamicResource String.Title.Button.Maximize}" />
+
+                            <Button
+                                Name="Button_Close"
+                                Grid.Column="7"
+                                Width="32"
+                                Height="32"
+                                Click="Button_Close_Click"
+                                Content="{StaticResource Image.ControlClose}"
+                                Cursor=""
+                                Focusable="True"
+                                Style="{StaticResource MaterialDesignIconButton}"
+                                ToolTip="{DynamicResource String.Title.Button.Close}" />
+
+                        </Grid>
+
+                    </Border>
+
+                    <!--  ToolBar  -->
+
+                    <local:ScrollViewerAnimation
+                        Grid.Row="1"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Hidden">
+
+                        <Border
+                            Name="Border_ToolBar"
+                            Background="#141417">
+
+                            <Grid Margin="18,0,18,8">
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+
+                                </Grid.ColumnDefinitions>
+
+                                <Button
+                                    Name="Button_ToolBar_New"
+                                    Grid.Column="0"
+                                    Command="{Binding NewCommand}"
+                                    Style="{StaticResource Style.ButtonFlat}"
+                                    ToolTip="{DynamicResource String.ToolBar.New.ToolTip}"
+                                    ToolTipService.InitialShowDelay="100">
+
+                                    <Button.Content>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="24"
+                                                Height="24"
+                                                VerticalAlignment="Center"
+                                                Foreground="gray"
+                                                Kind="FilePlus" />
+
+                                            <Label
+                                                Grid.Column="1"
+                                                Content="{DynamicResource String.ToolBar.New}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                        </Grid>
+
+                                    </Button.Content>
+
+                                </Button>
+
+                                <Button
+                                    Name="Button_ToolBar_Open"
+                                    Grid.Column="1"
+                                    Command="{Binding LoadCommand}"
+                                    Style="{StaticResource Style.ButtonFlat}">
+
+                                    <Button.Content>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="24"
+                                                Height="24"
+                                                VerticalAlignment="Center"
+                                                Foreground="gray"
+                                                Kind="Folder" />
+
+                                            <Label
+                                                Grid.Column="1"
+                                                Content="{DynamicResource String.ToolBar.Open}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                        </Grid>
+
+                                    </Button.Content>
+
+                                </Button>
+
+                                <Button
+                                    Name="Button_ToolBar_Save"
+                                    Grid.Column="2"
+                                    Command="{Binding SaveCommand}"
+                                    Style="{StaticResource Style.ButtonFlat}"
+                                    ToolTip="{DynamicResource String.ToolBar.Save.ToolTip}"
+                                    ToolTipService.InitialShowDelay="100">
+
+                                    <Button.Content>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="24"
+                                                Height="24"
+                                                VerticalAlignment="Center"
+                                                Foreground="gray"
+                                                Kind="ContentSave" />
+
+                                            <Label
+                                                Grid.Column="1"
+                                                Content="{DynamicResource String.ToolBar.Save}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                        </Grid>
+
+                                    </Button.Content>
+
+                                </Button>
+
+                                <Button
+                                    Name="Button_ToolBar_SaveAs"
+                                    Grid.Column="3"
+                                    Command="{Binding SaveAsCommand}"
+                                    Style="{StaticResource Style.ButtonFlat}">
+
+                                    <Button.Content>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="24"
+                                                Height="24"
+                                                VerticalAlignment="Center"
+                                                Foreground="gray"
+                                                Kind="ContentSavePlus" />
+
+                                            <Label
+                                                Grid.Column="1"
+                                                Content="{DynamicResource String.ToolBar.SaveAs}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                        </Grid>
+
+                                    </Button.Content>
+
+                                </Button>
+
+                                <!--
+
+                                <Label
+                                    Grid.Column="4"
+                                    Style="{StaticResource Style.Common.Text}">
+                                    |
+                                </Label>
+
+                                <Button
+                                    Name="Button_ToolBar_Undo"
+                                    Grid.Column="5"
+                                    Style="{StaticResource Style.ButtonFlat}"
+                                    ToolTip="{DynamicResource String.ToolBar.Undo.ToolTip}"
+                                    ToolTipService.InitialShowDelay="100">
+
+                                    <Button.Content>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="24"
+                                                Height="24"
+                                                VerticalAlignment="Center"
+                                                Foreground="gray"
+                                                Kind="Undo" />
+
+                                            <Label
+                                                Grid.Column="1"
+                                                Content="{DynamicResource String.ToolBar.Undo}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                        </Grid>
+
+                                    </Button.Content>
+
+                                </Button>
+
+                                <Button
+                                    Name="Button_ToolBar_Redo"
+                                    Grid.Column="6"
+                                    Style="{StaticResource Style.ButtonFlat}"
+                                    ToolTip="{DynamicResource String.ToolBar.Redo.ToolTip}"
+                                    ToolTipService.InitialShowDelay="100">
+
+                                    <Button.Content>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="24"
+                                                Height="24"
+                                                VerticalAlignment="Center"
+                                                Foreground="gray"
+                                                Kind="Redo" />
+
+                                            <Label
+                                                Grid.Column="1"
+                                                Content="{DynamicResource String.ToolBar.Redo}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                        </Grid>
+
+                                    </Button.Content>
+
+                                </Button>
+
+                                -->
+
+                                <Label
+                                    Grid.Column="7"
+                                    Style="{StaticResource Style.Common.Text}">
+                                    |
+                                </Label>
+
+                                <Button
+                                    Name="Button_ToolBar_RunGame"
+                                    Grid.Column="8"
+                                    Command="{Binding ApplyAndRunCommand}"
+                                    Style="{StaticResource Style.ButtonFlat}"
+                                    ToolTip="{DynamicResource String.ToolBar.RunGame.ToolTip}"
+                                    ToolTipService.InitialShowDelay="100">
+
+                                    <Button.Content>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="24"
+                                                Height="24"
+                                                VerticalAlignment="Center"
+                                                Foreground="gray"
+                                                Kind="Play" />
+
+                                            <Label
+                                                Grid.Column="1"
+                                                Content="{DynamicResource String.ToolBar.RunGame}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                        </Grid>
+
+                                    </Button.Content>
+
+                                </Button>
+
+                            </Grid>
+
+                        </Border>
+
+                    </local:ScrollViewerAnimation>
+
+                    <!--  窗体主内容  -->
+
+                    <Grid
+                        Name="MainContentGrid"
+                        Grid.Row="2">
+
+                        <local:ScrollViewerAnimation
+                            HorizontalScrollBarVisibility="Auto"
+                            VerticalScrollBarVisibility="Disabled">
+
+                            <TabControl
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Bottom"
+                                materialDesign:ColorZoneAssist.Foreground="LightSlateGray"
+                                materialDesign:ColorZoneAssist.Mode="Custom"
+                                TabStripPlacement="Bottom">
+
+                                <!--  选项  -->
+                                <TabItem>
+
+                                    <TabItem.Header>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="6" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="6" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="26"
+                                                Height="26"
+                                                Foreground="LightGray"
+                                                Kind="Cog" />
+
+                                            <Label
+                                                Grid.Column="2"
+                                                Content="{DynamicResource String.Tab.Options}"
+                                                FontSize="14"
+                                                FontWeight="Light"
+                                                Foreground="LightGray" />
+
+                                        </Grid>
+
+                                    </TabItem.Header>
+
+                                    <tabs:OptionsTab
+                                        x:Name="OptionsTab"
+                                        Width="{Binding ElementName=MainContentGrid, Path=ActualWidth}" />
+
+                                </TabItem>
+
+                                <!--  难度  -->
+
+                                <TabItem>
+
+                                    <TabItem.Header>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="6" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="6" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="26"
+                                                Height="26"
+                                                Foreground="LightGray"
+                                                Kind="ScaleUnbalanced" />
+
+                                            <Label
+                                                Grid.Column="2"
+                                                Content="{DynamicResource String.Tab.Difficulty}"
+                                                FontSize="14"
+                                                FontWeight="Light"
+                                                Foreground="LightGray" />
+
+                                        </Grid>
+
+                                    </TabItem.Header>
+
+                                    <tabs:DifficultyTab
+                                        x:Name="DifficultyTab"
+                                        Width="{Binding ElementName=MainContentGrid, Path=ActualWidth}" />
+
+                                </TabItem>
+
+                                <!--  角色  -->
+
+                                <TabItem>
+
+                                    <TabItem.Header>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="6" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="6" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="26"
+                                                Height="26"
+                                                Foreground="LightGray"
+                                                Kind="AccountGroup" />
+
+                                            <Label
+                                                Grid.Column="2"
+                                                Content="{DynamicResource String.Tab.Character}"
+                                                FontSize="14"
+                                                FontWeight="Light"
+                                                Foreground="LightGray" />
+
+                                        </Grid>
+
+                                    </TabItem.Header>
+
+                                    <tabs:CharacterTab
+                                        x:Name="CharaterTab"
+                                        Width="{Binding ElementName=MainContentGrid, Path=ActualWidth}" />
+
+                                </TabItem>
+
+                                <!--  关卡  -->
+
+                                <TabItem>
+
+                                    <TabItem.Header>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="6" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="6" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="26"
+                                                Height="26"
+                                                Foreground="LightGray"
+                                                Kind="MovieOpen" />
+
+                                            <Label
+                                                Grid.Column="2"
+                                                Content="{DynamicResource String.Tab.Level}"
+                                                FontSize="14"
+                                                FontWeight="Light"
+                                                Foreground="LightGray" />
+
+                                        </Grid>
+
+                                    </TabItem.Header>
+
+                                    <tabs:LevelTab
+                                        x:Name="LevelTab"
+                                        Width="{Binding ElementName=MainContentGrid, Path=ActualWidth}" />
+
+                                </TabItem>
+
+                                <!--  杂项  -->
+
+                                <TabItem>
+
+                                    <TabItem.Header>
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="6" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="6" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <materialDesign:PackIcon
+                                                Grid.Column="0"
+                                                Width="26"
+                                                Height="26"
+                                                Foreground="LightGray"
+                                                Kind="DotsHorizontal" />
+
+                                            <Label
+                                                Grid.Column="2"
+                                                Content="{DynamicResource String.Tab.Misc}"
+                                                FontSize="14"
+                                                FontWeight="Light"
+                                                Foreground="LightGray" />
+
+                                        </Grid>
+
+                                    </TabItem.Header>
+
+                                    <Label
+                                        HorizontalAlignment="Center"
+                                        Content="{DynamicResource String.CommingSoon}"
+                                        FontSize="32"
+                                        Style="{StaticResource Style.Common.Text}" />
+
+                                </TabItem>
+
+                            </TabControl>
+
+                        </local:ScrollViewerAnimation>
+
+                    </Grid>
+
+                </Grid>
+
+            </materialDesign:DialogHost>
+
+        </Border>
+
+    </Grid>
+
+    <Window.Triggers>
+
+        <EventTrigger RoutedEvent="Loaded">
+
+            <BeginStoryboard Storyboard="{StaticResource OpenWindow}" />
+
+        </EventTrigger>
+
+    </Window.Triggers>
+
+</Window>
+

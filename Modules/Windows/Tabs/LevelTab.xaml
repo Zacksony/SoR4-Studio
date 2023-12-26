@@ -1,0 +1,956 @@
+﻿<UserControl
+    x:Class="SoR4_Studio.Modules.Windows.Tabs.LevelTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SoR4_Studio.Modules.Windows.Tabs"
+    xmlns:localWindows="clr-namespace:SoR4_Studio.Modules.Windows"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:SoR4_Studio.Modules.ViewModel"
+    d:DesignWidth="1280"
+    mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <vm:LevelEditViewModel />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+
+        <!--  关卡图  -->
+
+        <Style
+            x:Key="StageAreaStyle"
+            TargetType="ItemsControl">
+
+            <Setter Property="ItemsPanel">
+
+                <Setter.Value>
+
+                    <ItemsPanelTemplate>
+
+                        <Canvas />
+
+                    </ItemsPanelTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+            <Setter Property="ItemTemplate">
+
+                <Setter.Value>
+
+                    <DataTemplate DataType="vm:StageAreaViewModel">
+
+                        <Polygon
+                            Fill="Cornsilk"
+                            Opacity="0.2"
+                            Points="{Binding Points}" />
+
+                    </DataTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+            <Setter Property="ItemContainerStyle">
+
+                <Setter.Value>
+
+                    <Style>
+
+                        <Setter Property="Canvas.Left" Value="0" />
+
+                        <Setter Property="Canvas.Top" Value="0" />
+
+                    </Style>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!--  生成点  -->
+
+        <Style
+            x:Key="SpawnerPointStyle"
+            TargetType="ItemsControl">
+
+            <Setter Property="ItemsPanel">
+
+                <Setter.Value>
+
+                    <ItemsPanelTemplate>
+
+                        <Canvas />
+
+                    </ItemsPanelTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+            <Setter Property="ItemTemplate">
+
+                <Setter.Value>
+
+                    <DataTemplate DataType="vm:SpawnerPointViewModel">
+
+                        <Canvas
+                            Width="2"
+                            Height="2">
+
+                            <Canvas.RenderTransform>
+
+                                <ScaleTransform />
+
+                            </Canvas.RenderTransform>
+
+                            <Label
+                                Canvas.Left="-4.4"
+                                Canvas.Top="1"
+                                Padding="2.5"
+                                Background="{x:Null}"
+                                Content="{Binding SpawnerType}"
+                                FontSize="4"
+                                IsHitTestVisible="False"
+                                Opacity="0.8"
+                                Style="{StaticResource Style.Common.Text}" />
+
+                            <Border
+                                x:Name="SpawnPoint"
+                                Canvas.Left="-3"
+                                Canvas.Top="-3"
+                                Width="6"
+                                Height="6"
+                                localWindows:SpawnerPointProp.SpawnerObject="{Binding Spawner}"
+                                Background="AntiqueWhite"
+                                BorderBrush="Red"
+                                BorderThickness="2"
+                                CornerRadius="8"
+                                MouseEnter="SpawnPoint_MouseEnter"
+                                MouseLeave="SpawnPoint_MouseLeave"
+                                MouseLeftButtonDown="SpawnPoint_MouseLeftButtonDown"
+                                Opacity="0.5"
+                                RenderTransformOrigin="0.5,0.5">
+
+                                <Border.RenderTransform>
+
+                                    <ScaleTransform />
+
+                                </Border.RenderTransform>
+
+                            </Border>
+
+                        </Canvas>
+
+                    </DataTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+            <Setter Property="ItemContainerStyle">
+
+                <Setter.Value>
+
+                    <Style>
+
+                        <Setter Property="Canvas.Left" Value="{Binding X}" />
+
+                        <Setter Property="Canvas.Top" Value="{Binding Y}" />
+
+                    </Style>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid Margin="16,16,16,16">
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="32" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="*" />
+
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="64" />
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="64" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="Auto" />
+
+            </Grid.ColumnDefinitions>
+
+            <Label
+                Grid.Column="0"
+                HorizontalAlignment="Center"
+                Content="{DynamicResource String.Level}"
+                Style="{StaticResource Style.Common.Text}" />
+
+            <ComboBox
+                x:Name="ComboBox_Level"
+                Grid.Column="1"
+                Focusable="True"
+                ItemsSource="{Binding LevelList, Mode=OneWay}"
+                MouseEnter="ComboBox_Level_MouseEnter"
+                MouseLeave="ComboBox_Level_MouseLeave"
+                SelectedValue="{Binding CurrentLevel}"
+                SelectionChanged="LevelComboBox_SelectionChanged"
+                Style="{StaticResource Style.Common.ComboBox}"
+                DisplayMemberPath="Key"
+                SelectedValuePath="Value" />
+
+            <Label
+                Grid.Column="3"
+                HorizontalAlignment="Center"
+                Content="{DynamicResource String.Level.Wave}"
+                Style="{StaticResource Style.Common.Text}" />
+
+            <ComboBox
+                x:Name="ComboBox_Wave"
+                Grid.Column="4"
+                Focusable="True"
+                ItemsSource="{Binding WaveList, Mode=OneWay}"
+                MouseEnter="ComboBox_Wave_MouseEnter"
+                MouseLeave="ComboBox_Wave_MouseLeave"
+                SelectedValue="{Binding CurrentWave}"
+                Style="{StaticResource Style.Common.ComboBox}"
+                DisplayMemberPath="Item1"
+                SelectedValuePath="Item2" />
+
+        </Grid>
+
+        <Grid Grid.Row="2">
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="Auto" />
+
+            </Grid.ColumnDefinitions>
+
+            <!--  地图区域画板  -->
+
+            <Border
+                Grid.Column="0"
+                MinWidth="25"
+                MinHeight="25"
+                BorderBrush="#444444"
+                BorderThickness="1">
+
+                <Canvas
+                    x:Name="StageAreaCanvas"
+                    Background="#090909"
+                    ClipToBounds="True"
+                    MouseLeave="StageAreaCanvas_MouseLeave"
+                    MouseLeftButtonDown="StageAreaCanvas_MouseLeftButtonDown"
+                    MouseLeftButtonUp="StageAreaCanvas_MouseLeftButtonUp"
+                    MouseMove="StageAreaCanvas_MouseMove"
+                    MouseWheel="StageAreaCanvas_MouseWheel">
+
+                    <ItemsControl
+                        Canvas.Left="0"
+                        Canvas.Top="0"
+                        ItemsSource="{Binding CurrentStageAreas, Mode=OneWay}"
+                        Style="{StaticResource StageAreaStyle}">
+
+                        <ItemsControl.RenderTransform>
+
+                            <TransformGroup>
+
+                                <TranslateTransform />
+
+                                <ScaleTransform />
+
+                            </TransformGroup>
+
+                        </ItemsControl.RenderTransform>
+
+                    </ItemsControl>
+
+                    <ItemsControl
+                        Canvas.Left="0"
+                        Canvas.Top="0"
+                        ItemsSource="{Binding CurrentSpawners, Mode=OneWay}"
+                        Style="{StaticResource SpawnerPointStyle}">
+
+                        <ItemsControl.RenderTransform>
+
+                            <TransformGroup>
+
+                                <TranslateTransform />
+
+                                <ScaleTransform />
+
+                            </TransformGroup>
+
+                        </ItemsControl.RenderTransform>
+
+                    </ItemsControl>
+
+                    <Button
+                        x:Name="Button_Restore"
+                        Margin="8"
+                        HorizontalAlignment="Left"
+                        Click="Button_Restore_Click"
+                        Style="{StaticResource Style.ButtonFlat}">
+
+                        <Button.Content>
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+
+                                </Grid.ColumnDefinitions>
+
+                                <materialDesign:PackIcon
+                                    Grid.Column="0"
+                                    Width="20"
+                                    Height="20"
+                                    VerticalAlignment="Center"
+                                    Foreground="gray"
+                                    Kind="Restore" />
+
+                                <Label
+                                    Grid.Column="1"
+                                    Content="{DynamicResource String.Level.Area.Restore}"
+                                    Style="{StaticResource Style.Common.Text}" />
+
+                            </Grid>
+
+                        </Button.Content>
+
+                    </Button>
+
+                </Canvas>
+
+            </Border>
+
+            <localWindows:ScrollViewerAnimation
+                Grid.Column="2"
+                MinWidth="360"
+                Margin="0,8,0,8"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Visible">
+
+                <StackPanel Margin="0,0,24,0">
+
+                    <Label
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Left"
+                        Content="{DynamicResource String.Level.Setting.Title}"
+                        Style="{StaticResource Style.Common.DialogTitle}" />
+
+                    <Button
+                        x:Name="Button_RestoreLevel"
+                        Margin="0,8,0,0"
+                        Command="{Binding RestoreLevelCommand}"
+                        Style="{StaticResource Style.Button}">
+
+                        <Button.Content>
+
+                            <Label
+                                Content="{DynamicResource String.Level.RestoreLevel}"
+                                Style="{StaticResource Style.Common.Text}" />
+
+                        </Button.Content>
+
+                    </Button>
+
+                    <Grid Margin="0,8,0,0">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Setting.IsBonusLevel}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <CheckBox
+                            Grid.Column="2"
+                            IsChecked="{Binding EnableRetroFilter}" />
+
+                    </Grid>
+
+                    <Label
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        Content="{DynamicResource String.Level.Setting.IsBonusLevel.Desc}"
+                        Style="{StaticResource Style.Common.ShallowText}" />
+
+                    <Grid Margin="0,8,0,0">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Setting.EnableEnemyInfighting}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <CheckBox
+                            Grid.Column="2"
+                            IsChecked="{Binding EnableEnemyInfighting}" />
+
+                    </Grid>
+
+                    <WrapPanel Margin="0,24,0,0">
+
+                        <Label
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Wave.Setting.Title}"
+                            Style="{StaticResource Style.Common.DialogTitle}" />
+
+                        <Label
+                            HorizontalAlignment="Left"
+                            Content=":"
+                            FontSize="18"
+                            Style="{StaticResource Style.Common.ShallowText}" />
+
+                        <Label
+                            HorizontalAlignment="Left"
+                            Content="{Binding CurrentWave.WaveName, Mode=OneWay}"
+                            FontSize="18"
+                            Style="{StaticResource Style.Common.ShallowText}" />
+
+                    </WrapPanel>
+
+                    <Button
+                        x:Name="Button_RestoreWave"
+                        Margin="0,8,0,0"
+                        Command="{Binding RestoreWaveCommand}"
+                        Style="{StaticResource Style.Button}">
+
+                        <Button.Content>
+
+                            <Label
+                                Content="{DynamicResource String.Level.RestoreWave}"
+                                Style="{StaticResource Style.Common.Text}" />
+
+                        </Button.Content>
+
+                    </Button>
+
+                    <Grid Margin="0,8,0,0">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Wave.Setting.CamaraLockType}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <ComboBox
+                            Grid.Column="3"
+                            HorizontalAlignment="Right"
+                            SelectedIndex="{Binding CameraLockType}"
+                            Style="{StaticResource Style.Common.ComboBox}">
+
+                            <ComboBoxItem Content="{DynamicResource String.Level.Wave.Setting.CamaraLockType.0}" />
+                            <ComboBoxItem Content="{DynamicResource String.Level.Wave.Setting.CamaraLockType.1}" />
+                            <ComboBoxItem Content="{DynamicResource String.Level.Wave.Setting.CamaraLockType.2}" />
+
+                        </ComboBox>
+
+                    </Grid>
+
+                    <Label
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        Content="{DynamicResource String.Level.Wave.Setting.CamaraLockType.Desc}"
+                        Style="{StaticResource Style.Common.ShallowText}" />
+
+                    <Grid Margin="0,8,0,0">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="4" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Wave.Setting.MaxEnemiesOnScreen}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <Label
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Wave.Setting.MaxEnemiesOnScreen.Infinite}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <CheckBox
+                            Grid.Column="4"
+                            IsChecked="{Binding IsInfiniteEnemiesOnScreen}" />
+
+                        <TextBox
+                            Grid.Column="6"
+                            MinWidth="32"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Center"
+                            IsEnabled="{Binding IsInfiniteEnemiesOnScreen, Converter={StaticResource InverseBooleanConverter}}"
+                            Style="{StaticResource Style.Common.TextBox}"
+                            Text="{Binding MaxEnemiesOnScreen}" />
+
+
+                    </Grid>
+
+                    <Label
+                        Margin="0,24,0,0"
+                        HorizontalAlignment="Left"
+                        Content="{DynamicResource String.Level.Spawner.Setting.Title}"
+                        Style="{StaticResource Style.Common.DialogTitle}" />
+
+                    <!--
+
+                    <Grid Margin="0,8,0,0">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Spawner.Setting.PosX}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <TextBox
+                            Grid.Column="2"
+                            MinWidth="32"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Center"
+                            Style="{StaticResource Style.Common.TextBox}" />
+
+                    </Grid>
+
+                    <Grid Margin="0,8,0,0">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Spawner.Setting.PosY}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <TextBox
+                            Grid.Column="2"
+                            MinWidth="32"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Center"
+                            Style="{StaticResource Style.Common.TextBox}" />
+
+                    </Grid>
+
+                    -->
+
+                    <Grid
+                        Margin="0,8,0,0"
+                        IsEnabled="{Binding IsPickup}">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="4" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Spawner.Setting.OnGroundObjectID}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <Label
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Spawner.Setting.NoPickup}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <CheckBox
+                            Grid.Column="4"
+                            IsChecked="{Binding IsEmptyPickup}" />
+
+                        <ComboBox
+                            Grid.Column="6"
+                            MinWidth="100"
+                            HorizontalAlignment="Right"
+                            IsEnabled="{Binding IsEmptyPickup, Converter={StaticResource InverseBooleanConverter}}"
+                            ItemsSource="{Binding PickupList, Mode=OneWay}"
+                            SelectedValue="{Binding Pickup}"
+                            Style="{StaticResource Style.Common.ComboBox}"
+                            DisplayMemberPath="Key"
+                            SelectedValuePath="Value" />
+
+                    </Grid>
+
+                    <Grid
+                        Margin="0,8,0,0"
+                        IsEnabled="{Binding IsBreakable}">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Spawner.Setting.BreakableID}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <ComboBox
+                            Grid.Column="3"
+                            MinWidth="100"
+                            HorizontalAlignment="Right"
+                            ItemsSource="{Binding BreakableList, Mode=OneWay}"
+                            SelectedValue="{Binding Breakable}"
+                            Style="{StaticResource Style.Common.ComboBox}"
+                            DisplayMemberPath="Key"
+                            SelectedValuePath="Value" />
+
+                    </Grid>
+
+                    <Grid
+                        Margin="0,8,0,0"
+                        IsEnabled="{Binding IsBreakable}">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="4" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Spawner.Setting.InBreakablePickupID}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <Label
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Spawner.Setting.NoPickup}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <CheckBox
+                            Grid.Column="4"
+                            IsChecked="{Binding IsEmptyInBreakablePickup}" />
+
+                        <ComboBox
+                            Grid.Column="6"
+                            MinWidth="100"
+                            HorizontalAlignment="Right"
+                            IsEnabled="{Binding IsEmptyInBreakablePickup, Converter={StaticResource InverseBooleanConverter}}"
+                            ItemsSource="{Binding PickupList, Mode=OneWay}"
+                            SelectedValue="{Binding InBreakablePickup}"
+                            Style="{StaticResource Style.Common.ComboBox}"
+                            DisplayMemberPath="Key"
+                            SelectedValuePath="Value" />
+
+                    </Grid>
+
+                    <Grid
+                        Margin="0,8,0,0"
+                        IsEnabled="{Binding IsBreakable}">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Spawner.Setting.IsBreakableMirrored}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <CheckBox
+                            Grid.Column="2"
+                            IsChecked="{Binding IsBreakableMirrored}" />
+
+                    </Grid>
+
+                    <Grid
+                        Margin="0,8,0,0"
+                        IsEnabled="{Binding CanSetEnemySpawnMultip, Mode=OneWay}">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="4" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Spawner.Setting.Enemies.SpawnMultip}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <Label
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            Content="{DynamicResource String.Level.Spawner.Setting.Enemies.UseGlobal}"
+                            Style="{StaticResource Style.Common.Text}" />
+
+                        <CheckBox
+                            Grid.Column="4"
+                            IsChecked="{Binding IsGlobalEnemySpawnMultip}" />
+
+                        <TextBox
+                            Grid.Column="6"
+                            MinWidth="32"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Center"
+                            IsEnabled="{Binding IsGlobalEnemySpawnMultip, Converter={StaticResource InverseBooleanConverter}}"
+                            Style="{StaticResource Style.Common.TextBox}"
+                            Text="{Binding EnemySpwanMultip}" />
+
+                    </Grid>
+
+                    <Label
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Left"
+                        Content="{DynamicResource String.Level.Spawner.Setting.Enemies.List}"
+                        FontWeight="Normal"
+                        IsEnabled="{Binding IsEnemy}"
+                        Style="{StaticResource Style.Common.Text}" />
+
+                    <ItemsControl
+                        Margin="0,8,0,0"
+                        ItemsSource="{Binding CurrentEnemySpawnerList}">
+
+                        <ItemsControl.ItemTemplate>
+
+                            <DataTemplate DataType="vm:EnemySpawner">
+
+                                <Border
+                                    Margin="0,4,0,4"
+                                    Background="#41080808"
+                                    BorderBrush="#404040"
+                                    BorderThickness="1"
+                                    CornerRadius="7">
+
+                                    <StackPanel Margin="10">
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="24" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label
+                                                Grid.Column="0"
+                                                HorizontalAlignment="Left"
+                                                Content="{DynamicResource String.Level.Spawner.Setting.Enemies.List.EnemyID}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                            <ComboBox
+                                                Grid.Column="3"
+                                                MinWidth="300"
+                                                HorizontalAlignment="Right"
+                                                ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnemyList}"
+                                                SelectedValue="{Binding EnemyID.Value}"
+                                                Style="{StaticResource Style.Common.ComboBox}"
+                                                DisplayMemberPath="Key"
+                                                SelectedValuePath="Value" />
+
+                                        </Grid>
+
+                                        <Grid
+                                            Margin="0,8,0,0"
+                                            IsEnabled="{Binding IsHoldWeaponNotNull, Mode=OneWay}">
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="24" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="4" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="24" />
+                                                <ColumnDefinition Width="Auto" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label
+                                                Grid.Column="0"
+                                                HorizontalAlignment="Left"
+                                                Content="{DynamicResource String.Level.Spawner.Setting.Enemies.List.HoldWeaponID}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                            <Label
+                                                Grid.Column="3"
+                                                HorizontalAlignment="Left"
+                                                Content="{DynamicResource String.Level.Spawner.Setting.NoPickup}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                            <CheckBox
+                                                Grid.Column="5"
+                                                IsChecked="{Binding NoHoldWeapon}" />
+
+                                            <ComboBox
+                                                Grid.Column="7"
+                                                MinWidth="100"
+                                                HorizontalAlignment="Right"
+                                                IsEnabled="{Binding NoHoldWeapon, Converter={StaticResource InverseBooleanConverter}}"
+                                                ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.PickupList}"
+                                                SelectedValue="{Binding HoldWeaponID.Value}"
+                                                Style="{StaticResource Style.Common.ComboBox}"
+                                                DisplayMemberPath="Key"
+                                                SelectedValuePath="Value" />
+
+                                        </Grid>
+
+                                        <Grid
+                                            Margin="0,8,0,0"
+                                            IsEnabled="{Binding IsHPNotNull, Mode=OneWay}">
+
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="24" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="4" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="24" />
+                                                <ColumnDefinition Width="Auto" />
+
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label
+                                                Grid.Column="0"
+                                                HorizontalAlignment="Left"
+                                                Content="{DynamicResource String.Level.Spawner.Setting.Enemies.List.HP}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                            <Label
+                                                Grid.Column="3"
+                                                HorizontalAlignment="Left"
+                                                Content="{DynamicResource String.Level.Spawner.Setting.Enemies.UseGlobal}"
+                                                Style="{StaticResource Style.Common.Text}" />
+
+                                            <CheckBox
+                                                Grid.Column="5"
+                                                IsChecked="{Binding IsGlobalHP}" />
+
+                                            <TextBox
+                                                Grid.Column="7"
+                                                MinWidth="80"
+                                                HorizontalAlignment="Right"
+                                                HorizontalContentAlignment="Center"
+                                                IsEnabled="{Binding IsGlobalHP, Converter={StaticResource InverseBooleanConverter}}"
+                                                Style="{StaticResource Style.Common.TextBox}"
+                                                Text="{Binding HP.Value}" />
+
+                                        </Grid>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                            </DataTemplate>
+
+                        </ItemsControl.ItemTemplate>
+
+                    </ItemsControl>
+
+                </StackPanel>
+
+            </localWindows:ScrollViewerAnimation>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>
