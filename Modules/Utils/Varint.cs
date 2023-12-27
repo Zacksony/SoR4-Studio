@@ -13,7 +13,7 @@ internal struct Varint
 
     public readonly int EncodedLength => GetVarintLength(Encoded);
 
-    public readonly byte[] EncodedBytes => ByteArrayConverter.Resize(Encoded.ToBytes(), EncodedLength);
+    public readonly byte[] EncodedBytes => ByteArrayConverters.Resize(Encoded.ToBytes(), EncodedLength);
 
     public ulong Decoded
     {

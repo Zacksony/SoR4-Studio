@@ -1,7 +1,7 @@
 ﻿using SoR4_Studio.Modules.DataModel.GameDataModel.BeatThemAll;
 using System.Windows;
 
-namespace SoR4_Studio.Modules.Windows;
+namespace SoR4_Studio.Modules.Windows.Helpers;
 
 internal class SpawnerPointProp : DependencyObject
 {

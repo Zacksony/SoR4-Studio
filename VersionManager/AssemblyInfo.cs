@@ -14,3 +14,4 @@ using System.Windows;
 [assembly: AssemblyProduct("SoR4 Studio")]
 [assembly: AssemblyDescription("A modding tool for SoR4.")]
 [assembly: AssemblyCopyright("Copyright (c) 2023 Zacksony")]
+[assembly: AssemblyCompany("ZacksonSoft(?)")]

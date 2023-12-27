@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RootNamespace>SoR4_Studio</RootNamespace>
@@ -57,7 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="VersionBuilder.tt">
+    <AdditionalFiles Include="VersionManager\VersionBuilder.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>VersionBuilder.cs</LastGenOutput>
     </AdditionalFiles>
@@ -75,7 +75,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="BinaryResources\bin" />
-    <None Include="VersionBuilder.cs">
+    <None Include="VersionManager\VersionBuilder.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>VersionBuilder.tt</DependentUpon>
@@ -93,7 +93,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>UserSettings.settings</DependentUpon>
     </Compile>
-    <Compile Update="VersionBuilder.cs">
+    <Compile Update="VersionManager\VersionBuilder.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>VersionBuilder.tt</DependentUpon>

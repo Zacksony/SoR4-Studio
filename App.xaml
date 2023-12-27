@@ -2,16 +2,17 @@
     x:Class="SoR4_Studio.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:helpers="clr-namespace:SoR4_Studio.Modules.Windows.Helpers"
     xmlns:local="clr-namespace:SoR4_Studio"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:utils="clr-namespace:SoR4_Studio.Modules.Utils"
     StartupUri="Modules/Windows/MainWindow.xaml">
 
     <Application.Resources>
 
         <ResourceDictionary>
 
-            <utils:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+            <!--  Converters  -->
+            <helpers:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 
             <ResourceDictionary.MergedDictionaries>
 

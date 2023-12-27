@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace SoR4_Studio.Modules.Utils;
+namespace SoR4_Studio.Modules.Windows.Helpers;
 
 [ValueConversion(typeof(bool?), typeof(bool))]
 internal class InverseBooleanConverter : IValueConverter

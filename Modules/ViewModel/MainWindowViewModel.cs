@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
 using SoR4_Studio.Modules.Utils;
 using SoR4_Studio.Properties;
@@ -14,6 +15,9 @@ namespace SoR4_Studio.Modules.ViewModel;
 internal partial class MainWindowViewModel : ModdingViewModelBase
 {
     private const string GITHUB_RELEASE_URL = "https://github.com/Zacksony/SoR4-Studio/releases";
+
+    [ObservableProperty]
+    private string? newReleaseTag = null;
 
     public static string SavePath
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SoR4_Studio.Modules.Windows;
+namespace SoR4_Studio.Modules.Windows.Helpers;
 
 public class MyDataGrid : DataGrid
 {

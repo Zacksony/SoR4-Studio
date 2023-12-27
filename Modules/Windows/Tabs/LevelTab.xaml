@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:SoR4_Studio.Modules.Windows.Helpers"
     xmlns:local="clr-namespace:SoR4_Studio.Modules.Windows.Tabs"
     xmlns:localWindows="clr-namespace:SoR4_Studio.Modules.Windows"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -125,7 +126,7 @@
                                 Canvas.Top="-3"
                                 Width="6"
                                 Height="6"
-                                localWindows:SpawnerPointProp.SpawnerObject="{Binding Spawner}"
+                                helpers:SpawnerPointProp.SpawnerObject="{Binding Spawner}"
                                 Background="AntiqueWhite"
                                 BorderBrush="Red"
                                 BorderThickness="2"
@@ -346,7 +347,7 @@
 
             </Border>
 
-            <localWindows:ScrollViewerAnimation
+            <helpers:ScrollViewerAnimation
                 Grid.Column="2"
                 MinWidth="360"
                 Margin="0,8,0,8"
@@ -947,7 +948,7 @@
 
                 </StackPanel>
 
-            </localWindows:ScrollViewerAnimation>
+            </helpers:ScrollViewerAnimation>
 
         </Grid>
 

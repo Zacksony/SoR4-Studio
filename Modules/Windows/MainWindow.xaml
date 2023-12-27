@@ -3,18 +3,19 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:SoR4_Studio.Modules.Windows.Helpers"
     xmlns:local="clr-namespace:SoR4_Studio.Modules.Windows"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prop="clr-namespace:SoR4_Studio.Properties"
-    xmlns:root="clr-namespace:SoR4_Studio"
     xmlns:tabs="clr-namespace:SoR4_Studio.Modules.Windows.Tabs"
+    xmlns:verManager="clr-namespace:SoR4_Studio.VersionManager"
     xmlns:vm="clr-namespace:SoR4_Studio.Modules.ViewModel"
     Title="SoR4 Studio"
     Width="{Binding WindowWidth, Source={x:Static prop:UserSettings.Default}, Mode=TwoWay}"
     Height="{Binding WindowHeight, Source={x:Static prop:UserSettings.Default}, Mode=TwoWay}"
-    MinWidth="600"
-    MinHeight="420"
+    MinWidth="850"
+    MinHeight="540"
     Activated="Window_Activated"
     AllowsTransparency="True"
     Background="{x:Null}"
@@ -218,7 +219,7 @@
                             <Label
                                 Name="Label_MainTitle"
                                 Grid.Column="0"
-                                Content="{Binding DisplayAppName, Source={x:Static root:CurrentVersion.Instance}, Mode=OneTime}"
+                                Content="{Binding DisplayAppName, Source={x:Static verManager:CurrentVersion.Instance}, Mode=OneTime}"
                                 Style="{StaticResource Style.Label.Title.AppName}" />
 
                             <Label
@@ -227,7 +228,7 @@
                                 Style="{StaticResource Style.Label.Title.AppVersion}">
 
                                 <Label.Content>
-                                    <TextBlock Text="{Binding DisplayVersion, Source={x:Static root:CurrentVersion.Instance}, Mode=OneTime}" />
+                                    <TextBlock Text="{Binding DisplayVersion, Source={x:Static verManager:CurrentVersion.Instance}, Mode=OneTime}" />
                                 </Label.Content>
 
                             </Label>
@@ -253,7 +254,9 @@
                             <Label
                                 Name="Label_UpdateFound"
                                 Grid.Column="3"
-                                Content="{DynamicResource String.UpdateAvailable}"
+                                helpers:DynamicStringFormatHelper.Format="{DynamicResource String.UpdateAvailable}"
+                                helpers:DynamicStringFormatHelper.Value="{Binding NewReleaseTag}"
+                                Content="{Binding (helpers:DynamicStringFormatHelper.FormattedValue), RelativeSource={RelativeSource Self}, Mode=OneWay}"
                                 Style="{StaticResource Style.Common.DialogTitle}"
                                 Visibility="Hidden" />
 
@@ -299,7 +302,7 @@
 
                     <!--  ToolBar  -->
 
-                    <local:ScrollViewerAnimation
+                    <helpers:ScrollViewerAnimation
                         Grid.Row="1"
                         HorizontalScrollBarVisibility="Auto"
                         VerticalScrollBarVisibility="Hidden">
@@ -604,7 +607,7 @@
 
                         </Border>
 
-                    </local:ScrollViewerAnimation>
+                    </helpers:ScrollViewerAnimation>
 
                     <!--  窗体主内容  -->
 
@@ -612,7 +615,7 @@
                         Name="MainContentGrid"
                         Grid.Row="2">
 
-                        <local:ScrollViewerAnimation
+                        <helpers:ScrollViewerAnimation
                             HorizontalScrollBarVisibility="Auto"
                             VerticalScrollBarVisibility="Disabled">
 
@@ -831,7 +834,7 @@
 
                             </TabControl>
 
-                        </local:ScrollViewerAnimation>
+                        </helpers:ScrollViewerAnimation>
 
                     </Grid>
 

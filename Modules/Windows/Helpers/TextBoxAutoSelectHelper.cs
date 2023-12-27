@@ -2,7 +2,7 @@
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
-namespace SoR4_Studio.Modules.Windows;
+namespace SoR4_Studio.Modules.Windows.Helpers;
 
 /// <summary>
 /// 当 TextBoxBase获得焦点的时候，自动全部选择文字。附加属性为SelectAllWhenGotFocus，类型为bool.

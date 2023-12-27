@@ -1,5 +1,6 @@
 ﻿using SoR4_Studio.Modules.DataModel.GameDataModel.BeatThemAll;
 using SoR4_Studio.Modules.ViewModel;
+using SoR4_Studio.Modules.Windows.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

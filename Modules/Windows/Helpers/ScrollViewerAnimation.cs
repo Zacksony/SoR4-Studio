@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
-namespace SoR4_Studio.Modules.Windows;
+namespace SoR4_Studio.Modules.Windows.Helpers;
 
 public class ScrollViewerAnimation : ScrollViewer
 {

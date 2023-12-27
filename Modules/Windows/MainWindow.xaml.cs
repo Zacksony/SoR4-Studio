@@ -1,5 +1,6 @@
 ﻿using Octokit;
 using SoR4_Studio.Modules.ViewModel;
+using SoR4_Studio.VersionManager;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -25,7 +26,7 @@ public partial class MainWindow : Window
         MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
         MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 8;
 
-        CheckUpdate();
+        NotifyIfHasUpdate();
     }
 
     #region Window Interactions
@@ -182,52 +183,20 @@ public partial class MainWindow : Window
 
     #region Update Checking
 
-    private async void CheckUpdate()
+    private async void NotifyIfHasUpdate()
     {
-        Label_UpdateFound.Visibility = Visibility.Hidden;
+        string? result = await UpdateChecker.Check();
 
-        try
+        ((MainWindowViewModel)DataContext).NewReleaseTag = result;
+
+        if (result is null)
         {
-            //Get all releases from GitHub
-            //Source: https://octokitnet.readthedocs.io/en/latest/getting-started/
-            GitHubClient client = new(new ProductHeaderValue("Zacksony"));
-            IReadOnlyList<Release> releases = await client.Repository.Release.GetAll("Zacksony", "SoR4-Studio");
-
-            //Setup the versions
-            Version latestGitHubVersion = new(PickoutVersionString(releases[0].TagName));
-            Version localVersion = new(CurrentVersion.Instance.DisplayVersion);
-
-            //Compare the Versions
-            //Source: https://stackoverflow.com/questions/7568147/compare-version-numbers-without-using-split-function
-            int versionComparison = localVersion.CompareTo(latestGitHubVersion);
-            if (versionComparison < 0)
-            {
-                //The version on GitHub is more up to date than this local release.
-                Console.WriteLine("Go update now!!!");
-                Label_UpdateFound.Visibility = Visibility.Visible;
-            }
-            else if (versionComparison > 0)
-            {
-                //This local version is greater than the release version on GitHub.
-                Console.WriteLine("..how?");
-            }
-            else
-            {
-                //This local Version and the Version on GitHub are equal.
-                Console.WriteLine("Good boy");
-            }
+            Label_UpdateFound.Visibility = Visibility.Hidden;
         }
-        catch
+        else
         {
-            Console.WriteLine("I DONOT really care why the fuck it failed but we need to keep running anyway");
+            Label_UpdateFound.Visibility = Visibility.Visible;
         }
-    }
-
-    private static string PickoutVersionString(in string rawString)
-    {
-        string pattern = @"\d+\.\d+\.\d+";
-        Regex regex = new(pattern);
-        return regex.Match(rawString).Value;
     }
 
     #endregion

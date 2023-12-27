@@ -1,6 +1,6 @@
 ﻿using System.Windows.Data;
 
-namespace SoR4_Studio.Modules.Windows;
+namespace SoR4_Studio.Modules.Windows.Helpers;
 
 public class EditableBinding : Binding
 {

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: AssemblyFileVersion("<#= this.fullVersion #>")]
 
 <#+
-    static string displayVersion = "0.1.0";
+    static string displayVersion = "0.1.1";
 
     static int revisionNumber = (int)(DateTime.UtcNow - new DateTime(2023, 12, 25)).TotalHours;
 

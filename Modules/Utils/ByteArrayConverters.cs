@@ -2,7 +2,7 @@
 
 namespace SoR4_Studio.Modules.Utils;
 
-internal static class ByteArrayConverter
+internal static class ByteArrayConverters
 {
     #region Bytes to Number
 
