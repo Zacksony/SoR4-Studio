@@ -3,6 +3,11 @@ A SoR4 modding tool with a user-friendly interface.
 
 ---
 
+## 💻 Develop Environment
+1. .Net 8 SDK (https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-8.0.100-windows-x64-installer)
+2. Visual Studio 2022
+3. Lovely Cats (not really)
+
 ## 💡 Current Features
 
 1. Difficulty list editing
