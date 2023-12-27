@@ -19,16 +19,16 @@ A SoR4 modding tool with a user-friendly interface.
 ### For providing the meaning of fields inside bigile
 
 - MoonLightFox
-- FuzzYetPatchy
+- FuzzYetDeadly
 - Honganqi
 - Bragdras
 
 ### For providing lots of technological help
 
-- FuzzYetPatchy
+- FuzzYetDeadly
 
 ### For making tools that helped me understand the structure of fields
 
-- FuzzYetPatchy
+- FuzzYetDeadly
 - JadingTsunami
 
