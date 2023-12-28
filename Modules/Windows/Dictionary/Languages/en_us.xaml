@@ -72,6 +72,7 @@
     <s:String x:Key="String.Difficulty.List.AggroSlots">Aggro Slots</s:String>
 
     <s:String x:Key="String.Level">Level</s:String>
+    <s:String x:Key="String.Level.EditLevelOrder">Edit Main Campaign Level Order</s:String>
     <s:String x:Key="String.Level.RestoreLevel">Restore this level</s:String>
     <s:String x:Key="String.Level.RestoreWave">Restore this wave</s:String>
     <s:String x:Key="String.Level.Area.Restore">Reset view</s:String>

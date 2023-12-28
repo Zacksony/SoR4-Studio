@@ -72,6 +72,7 @@
     <s:String x:Key="String.Difficulty.List.AggroSlots">敌方刷怪限制</s:String>
 
     <s:String x:Key="String.Level">关卡</s:String>
+    <s:String x:Key="String.Level.EditLevelOrder">编辑主流程关卡顺序</s:String>
     <s:String x:Key="String.Level.RestoreLevel">重置当前关卡</s:String>
     <s:String x:Key="String.Level.RestoreWave">重置当前波</s:String>
     <s:String x:Key="String.Level.Area.Restore">重置视图</s:String>

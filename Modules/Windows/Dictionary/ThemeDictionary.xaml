@@ -288,7 +288,7 @@
 
         <Setter Property="Background" Value="#1F1F22" />
 
-        <Setter Property="BorderBrush" Value="#2E2E30" />
+        <Setter Property="BorderBrush" Value="#3E3E40" />
 
         <Setter Property="BorderThickness" Value="1" />
 

@@ -21,7 +21,7 @@
             <Border
                 Margin="8"
                 Background="#04FFFFFF"
-                BorderBrush="#19FFFFFF"
+                BorderBrush="#26FFFFFF"
                 BorderThickness="1"
                 CornerRadius="8">
 
@@ -62,7 +62,7 @@
             <Border
                 Margin="8"
                 Background="#04FFFFFF"
-                BorderBrush="#19FFFFFF"
+                BorderBrush="#26FFFFFF"
                 BorderThickness="1"
                 CornerRadius="8">
 
@@ -135,7 +135,7 @@
             <Border
                 Margin="8"
                 Background="#04FFFFFF"
-                BorderBrush="#19FFFFFF"
+                BorderBrush="#26FFFFFF"
                 BorderThickness="1"
                 CornerRadius="8">
 
