@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RootNamespace>SoR4_Studio</RootNamespace>
@@ -57,9 +57,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="VersionManager\VersionBuilder.tt">
+    <AdditionalFiles Include="VersionManager\CurrentVersion.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>VersionBuilder.cs</LastGenOutput>
+      <LastGenOutput>CurrentVersion.cs</LastGenOutput>
     </AdditionalFiles>
   </ItemGroup>
 
@@ -75,10 +75,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="BinaryResources\bin" />
-    <None Include="VersionManager\VersionBuilder.cs">
+    <None Include="VersionManager\CurrentVersion.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>VersionBuilder.tt</DependentUpon>
+      <DependentUpon>CurrentVersion.tt</DependentUpon>
     </None>
     <Resource Include="Resources\1up_trans.png" />
     <Resource Include="Resources\control_close.png" />
@@ -92,6 +92,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
       <DependentUpon>UserSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="VersionManager\CurrentVersion.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CurrentVersion.tt</DependentUpon>
     </Compile>
     <Compile Update="VersionManager\VersionBuilder.cs">
       <DesignTime>True</DesignTime>

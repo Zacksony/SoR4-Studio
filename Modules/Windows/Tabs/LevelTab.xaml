@@ -110,32 +110,30 @@
                             </Canvas.RenderTransform>
 
                             <Label
-                                Canvas.Left="-4.4"
-                                Canvas.Top="1"
-                                Padding="2.5"
+                                Canvas.Left="-5.5"
+                                Canvas.Top="-4.5"
                                 Background="{x:Null}"
                                 Content="{Binding SpawnerType}"
-                                FontSize="4"
+                                FontSize="0.6666666"
                                 IsHitTestVisible="False"
                                 Opacity="0.8"
                                 Style="{StaticResource Style.Common.Text}" />
 
                             <Border
                                 x:Name="SpawnPoint"
-                                Canvas.Left="-3"
-                                Canvas.Top="-3"
-                                Width="6"
-                                Height="6"
+                                Canvas.Left="-0.5"
+                                Canvas.Top="-0.5"
+                                Width="1"
+                                Height="1"
                                 helpers:SpawnerPointProp.SpawnerObject="{Binding Spawner}"
                                 Background="AntiqueWhite"
                                 BorderBrush="Red"
-                                BorderThickness="2"
-                                CornerRadius="8"
+                                BorderThickness="0.3333333"
+                                CornerRadius="1.3333333"
                                 MouseEnter="SpawnPoint_MouseEnter"
                                 MouseLeave="SpawnPoint_MouseLeave"
                                 MouseLeftButtonDown="SpawnPoint_MouseLeftButtonDown"
-                                Opacity="0.5"
-                                RenderTransformOrigin="0.5,0.5">
+                                Opacity="0.5">
 
                                 <Border.RenderTransform>
 
@@ -260,11 +258,14 @@
                     x:Name="StageAreaCanvas"
                     Background="#090909"
                     ClipToBounds="True"
+                    Loaded="StageAreaCanvas_Loaded"
                     MouseLeave="StageAreaCanvas_MouseLeave"
                     MouseLeftButtonDown="StageAreaCanvas_MouseLeftButtonDown"
                     MouseLeftButtonUp="StageAreaCanvas_MouseLeftButtonUp"
                     MouseMove="StageAreaCanvas_MouseMove"
-                    MouseWheel="StageAreaCanvas_MouseWheel">
+                    MouseWheel="StageAreaCanvas_MouseWheel"
+                    SizeChanged="StageAreaCanvas_SizeChanged"
+                    Unloaded="StageAreaCanvas_Unloaded">
 
                     <ItemsControl
                         Canvas.Left="0"

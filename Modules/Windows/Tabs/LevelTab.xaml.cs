@@ -4,6 +4,7 @@ using SoR4_Studio.Modules.Windows.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,10 +18,13 @@ namespace SoR4_Studio.Modules.Windows.Tabs;
 /// </summary>
 public partial class LevelTab : UserControl
 {
+    private const int INITIAL_DISPLAY_SCALE = 12;
+    private const int MAX_DISPLAY_SCALE = INITIAL_DISPLAY_SCALE * 4;
+    private const int MIN_DISPLAY_SCALE = (int)(INITIAL_DISPLAY_SCALE * 0.2);
+
     public LevelTab()
     {
         InitializeComponent();
-        InitialAreaTransForm();
     }
 
     private Point MiddlePos => new(StageAreaCanvas.ActualWidth / 2, StageAreaCanvas.ActualHeight / 2);
@@ -83,21 +87,15 @@ public partial class LevelTab : UserControl
     {
         int delta = e.Delta;
 
-        if (delta < 0 && (StageAreaScaleTransform.ScaleX <= 0.3 || StageAreaScaleTransform.ScaleY <= 0.3))
+        if (delta < 0 && (StageAreaScaleTransform.ScaleX <= MIN_DISPLAY_SCALE || StageAreaScaleTransform.ScaleY <= MIN_DISPLAY_SCALE))
         {
             return;
         }
 
-        if (delta > 0 && (StageAreaScaleTransform.ScaleX >= 8 || StageAreaScaleTransform.ScaleY >= 8))
+        if (delta > 0 && (StageAreaScaleTransform.ScaleX >= MAX_DISPLAY_SCALE || StageAreaScaleTransform.ScaleY >= MAX_DISPLAY_SCALE))
         {
             return;
         }
-
-        SpawnersViewScaleTransform.CenterX = MiddlePos.X;
-        SpawnersViewScaleTransform.CenterY = MiddlePos.Y;
-
-        StageAreaScaleTransform.CenterX = MiddlePos.X;
-        StageAreaScaleTransform.CenterY = MiddlePos.Y;
 
         AnimatedAreaScale(StageAreaScaleTransform.ScaleX, StageAreaScaleTransform.ScaleX * (delta > 0 ? 1.66 : 0.602));
     }
@@ -119,19 +117,10 @@ public partial class LevelTab : UserControl
 
     private readonly Dictionary<LevelData.LevelDataClass, AreaTransformInfo> AreaTransformMemory = [];
 
-    private void LevelComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void SaveLevelTransform(LevelData.LevelDataClass level)
     {
-        if (e.RemovedItems.Count == 0)
-        {
-            return;
-        }
-
-        // 保存
-
-        LevelData.LevelDataClass previousLevel = ((KeyValuePair<string, LevelData.LevelDataClass>)e.RemovedItems[0]!).Value;
-
-        AreaTransformMemory.Remove(previousLevel);
-        AreaTransformMemory.Add(previousLevel, new()
+        AreaTransformMemory.Remove(level);
+        AreaTransformMemory.Add(level, new()
         {
             translateX = StageAreaTranslateTransform.X,
             translateY = StageAreaTranslateTransform.Y,
@@ -140,15 +129,11 @@ public partial class LevelTab : UserControl
             scaleCenterX = StageAreaScaleTransform.CenterX,
             scaleCenterY = StageAreaScaleTransform.CenterY,
         });
+    }
 
-        if (((ComboBox)sender).SelectedItem is not KeyValuePair<string, LevelData.LevelDataClass> selectedItem)
-        {
-            return;
-        }
-
-        LevelData.LevelDataClass selecedLevel = selectedItem.Value;
-
-        if (AreaTransformMemory.TryGetValue(selecedLevel, out AreaTransformInfo transFormInfo))
+    private void RestoreLevelTransform(LevelData.LevelDataClass level)
+    {
+        if (AreaTransformMemory.TryGetValue(level, out AreaTransformInfo transFormInfo))
         {
             // 选过，还原缩放信息
 
@@ -174,12 +159,71 @@ public partial class LevelTab : UserControl
         InitialAreaTransForm();
     }
 
+    private void StageAreaCanvas_Unloaded(object sender, RoutedEventArgs e)
+    {
+        if (ComboBox_Level.SelectedItem is not KeyValuePair<string, LevelData.LevelDataClass> selectedItem)
+        {
+            return;
+        }
+
+        SaveLevelTransform(selectedItem.Value);
+    }
+
+    private void StageAreaCanvas_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (ComboBox_Level.SelectedItem is not KeyValuePair<string, LevelData.LevelDataClass> selectedItem)
+        {
+            return;
+        }
+
+        RestoreLevelTransform(selectedItem.Value);
+    }
+
+    private void StageAreaCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        double changedX = (e.NewSize.Width - e.PreviousSize.Width);
+        double changedY = (e.NewSize.Height - e.PreviousSize.Height);
+
+        StageAreaScaleTransform.CenterX += changedX / 2;
+        StageAreaScaleTransform.CenterY += changedY / 2;
+
+        SpawnersViewScaleTransform.CenterX += changedX / 2;
+        SpawnersViewScaleTransform.CenterY += changedY / 2;
+
+        StageAreaTranslateTransform.X += changedX / 2 - changedX / 2 / StageAreaScaleTransform.ScaleX;
+        StageAreaTranslateTransform.Y += changedY / 2 - changedY / 2 / StageAreaScaleTransform.ScaleY;
+
+        SpawnersViewTranslateTransform.X += changedX / 2 - changedX / 2 / SpawnersViewScaleTransform.ScaleX;
+        SpawnersViewTranslateTransform.Y += changedY / 2 - changedY / 2 / SpawnersViewScaleTransform.ScaleY;
+    }
+
+    private void LevelComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        // 保存当前的
+
+        if (e.RemovedItems.Count == 0)
+        {
+            return;
+        }
+
+        SaveLevelTransform(((KeyValuePair<string, LevelData.LevelDataClass>)e.RemovedItems[0]!).Value);
+
+        // 加载新的
+
+        if (ComboBox_Level.SelectedItem is not KeyValuePair<string, LevelData.LevelDataClass> selectedItem)
+        {
+            return;
+        }
+
+        RestoreLevelTransform(selectedItem.Value);
+    }
+
     private void Button_Restore_Click(object sender, RoutedEventArgs e)
     {
         InitialAreaTransForm();
     }
 
-    private void InitialAreaTransForm()
+    private (Point minPoint, Point maxPoint) GetAreaBoard()
     {
         double minX = double.MaxValue, minY = double.MaxValue, maxX = double.MinValue, maxY = double.MinValue;
 
@@ -193,14 +237,21 @@ public partial class LevelTab : UserControl
             maxY = Math.Max(maxY, point.Y);
         }
 
-        double width = maxX - minX;
-        double height = maxY - minY;
+        return (new(minX, minY), new(maxX, maxY));
+    }
 
-        StageAreaTranslateTransform.X = MiddlePos.X - width / 2 - minX;
-        StageAreaTranslateTransform.Y = MiddlePos.Y - height / 2 - minY;
+    private void InitialAreaTransForm()
+    {
+        (Point minPoint, Point maxPoint) = GetAreaBoard();
 
-        SpawnersViewTranslateTransform.X = MiddlePos.X - width / 2 - minX;
-        SpawnersViewTranslateTransform.Y = MiddlePos.Y - height / 2 - minY;
+        double width = maxPoint.X - minPoint.X;
+        double height = maxPoint.Y - minPoint.Y;
+
+        StageAreaTranslateTransform.X = MiddlePos.X - width / 2 - minPoint.X;
+        StageAreaTranslateTransform.Y = MiddlePos.Y - height / 2 - minPoint.Y;
+
+        SpawnersViewTranslateTransform.X = MiddlePos.X - width / 2 - minPoint.X;
+        SpawnersViewTranslateTransform.Y = MiddlePos.Y - height / 2 - minPoint.Y;
 
         StageAreaScaleTransform.CenterX = MiddlePos.X;
         StageAreaScaleTransform.CenterY = MiddlePos.Y;
@@ -208,7 +259,7 @@ public partial class LevelTab : UserControl
         SpawnersViewScaleTransform.CenterX = MiddlePos.X;
         SpawnersViewScaleTransform.CenterY = MiddlePos.Y;
 
-        AnimatedAreaScale(3, 2);
+        AnimatedAreaScale(INITIAL_DISPLAY_SCALE * 1.5, INITIAL_DISPLAY_SCALE);
     }
 
     private void AnimatedAreaScale(double from, double to)
@@ -285,16 +336,16 @@ public partial class LevelTab : UserControl
 
         DoubleAnimation animeScale = new()
         {
-            From = 6,
-            To = 9,
+            From = 1,
+            To = 1.15,
             Duration = TimeSpan.FromMilliseconds(100),
             EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
         };
 
         DoubleAnimation animeTrans = new()
         {
-            From = -3,
-            To = -4.5,
+            From = -0.5,
+            To = -0.575,
             Duration = TimeSpan.FromMilliseconds(100),
             EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
         };
@@ -320,16 +371,16 @@ public partial class LevelTab : UserControl
 
         DoubleAnimation animeScale = new()
         {
-            From = 9,
-            To = 6,
+            From = 1.15,
+            To = 1,
             Duration = TimeSpan.FromMilliseconds(100),
             EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
         };
 
         DoubleAnimation animeTrans = new()
         {
-            From = -4.5,
-            To = -3,
+            From = -0.575,
+            To = -0.5,
             Duration = TimeSpan.FromMilliseconds(100),
             EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
         };

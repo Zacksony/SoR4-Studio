@@ -15,7 +15,7 @@ namespace SoR4_Studio.Modules.ViewModel;
 
 internal partial class LevelEditViewModel : ModdingViewModelBase
 {
-    private const int VIS_SCALE = 10000;
+    private const int VIS_SCALE = 65536;
 
     public LevelEditViewModel()
     {
@@ -144,7 +144,7 @@ internal partial class LevelEditViewModel : ModdingViewModelBase
 
                 foreach ((int x, int y) in area)
                 {
-                    points.Add(new(x / VIS_SCALE, -y / VIS_SCALE));
+                    points.Add(new((double)x / VIS_SCALE, (double)-y / VIS_SCALE));
                 }
 
                 result.Add(new() { Points = points });
@@ -448,15 +448,18 @@ internal partial class LevelEditViewModel : ModdingViewModelBase
         {
             SpawnerType spawnerType = GetSpawnerType(source);
 
-            double x = source.PosX / VIS_SCALE;
-            double y = -source.PosY / VIS_SCALE;
+            double x = (double)source.PosX / VIS_SCALE;
+            double y = (double)-source.PosY / VIS_SCALE;
 
-            foreach (var addedSpawner in destination)
+            for (int repeatCount = 2; repeatCount > 0; repeatCount--)
             {
-                if (double.Abs(addedSpawner.X - x) < 4 && double.Abs(addedSpawner.Y - y) < 4)
+                foreach (var addedSpawner in destination)
                 {
-                    x = addedSpawner.X + ((addedSpawner.X - x) <= 0 ? 4 : -4);
-                    y = addedSpawner.Y + ((addedSpawner.Y - y) <= 0 ? 4 : -4);
+                    if (double.Abs(addedSpawner.X - x) < 0.3 && double.Abs(addedSpawner.Y - y) < 0.3)
+                    {
+                        x = addedSpawner.X + ((addedSpawner.X - x) <= 0 ? 0.3 : -0.3);
+                        y = addedSpawner.Y + ((addedSpawner.Y - y) <= 0 ? 0.3 : -0.3);
+                    }
                 }
             }
 
