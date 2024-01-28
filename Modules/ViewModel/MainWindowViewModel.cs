@@ -89,7 +89,7 @@ internal partial class MainWindowViewModel : ModdingViewModelBase
         SaveFileDialog dialog = new()
         {
             Title = "Save the bigfile..",
-            Filter = "所有文件|*.*|bigfile|bigfile"
+            Filter = "*.*|*.*|bigfile|bigfile"
         };
 
         if (dialog.ShowDialog() is true)
@@ -139,7 +139,7 @@ internal partial class MainWindowViewModel : ModdingViewModelBase
         OpenFileDialog dialog = new()
         {
             Title = "Load a bigfile..",
-            Filter = "所有文件|*.*|bigfile|bigfile",
+            Filter = "*.*|*.*|bigfile|bigfile",
             Multiselect = false
         };
 

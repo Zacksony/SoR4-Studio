@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 
-namespace SoR4_Studio.Modules.Windows.Tabs;
+namespace SoR4_Studio.Modules.Windows.Dialogs;
 
 /// <summary>
 /// DifficultyDescEditDialog.xaml 的交互逻辑

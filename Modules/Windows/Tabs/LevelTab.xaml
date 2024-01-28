@@ -193,7 +193,7 @@
 
             <Button
                 Grid.Column="0"
-                Command="{Binding}"
+                Command="{Binding LevelOrderEditCommand}"
                 Style="{StaticResource Style.Button}">
 
                 <Button.Content>
@@ -854,14 +854,11 @@
 
                         <ItemsControl.ItemTemplate>
 
-                            <DataTemplate DataType="vm:EnemySpawner">
+                            <DataTemplate>
 
                                 <Border
                                     Margin="0,4,0,4"
-                                    Background="#41080808"
-                                    BorderBrush="#404040"
-                                    BorderThickness="1"
-                                    CornerRadius="7">
+                                    Style="{StaticResource Style.DeepBorder}">
 
                                     <StackPanel Margin="10">
 

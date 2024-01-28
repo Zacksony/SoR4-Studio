@@ -5,10 +5,10 @@ namespace SoR4_Studio.Modules.DataModel.GameDataModel.BeatThemAll;
 
 internal class MetaGameConfigData(GameData gameData) : FieldExtenderBase(gameData, new(MainKeys.MetaGameConfigData))
 {
-    public ExtenderList<LevelDirectorClass> MainCampaignDirectors => this[14, 0, 1]!;
+    public ExtenderList<LevelOrderClass> MainCampaignLevelOrders => this[14, 0, 1]!;
     public ExtenderList<DifficultyClass> Difficulties => this[29]!;
 
-    internal class LevelDirectorClass : FieldExtenderBase
+    internal class LevelOrderClass : FieldExtenderBase
     {
         public ExtenderList<LevelIDClass> LevelIDs => this[1]!;
         public SoR4_Int32 Int01 => this[5]!;

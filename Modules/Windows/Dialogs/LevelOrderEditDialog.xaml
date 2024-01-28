@@ -1,0 +1,335 @@
+﻿<UserControl
+    x:Class="SoR4_Studio.Modules.Windows.Dialogs.LevelOrderEditDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:SoR4_Studio.Modules.Windows.Helpers"
+    xmlns:local="clr-namespace:SoR4_Studio.Modules.Windows.Dialogs"
+    xmlns:localWindows="clr-namespace:SoR4_Studio.Modules.Windows"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="clr-namespace:System;assembly=mscorlib"
+    xmlns:vm="clr-namespace:SoR4_Studio.Modules.ViewModel"
+    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+    mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <vm:LevelOrderEditDialogViewModel />
+    </UserControl.DataContext>
+
+    <Grid Margin="16">
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            FlowDirection="LeftToRight"
+            Orientation="Horizontal">
+
+            <Label
+                Content="{DynamicResource String.Level.EditLevelOrder.Title}"
+                Style="{StaticResource Style.Common.DialogTitle}" />
+
+            <Button
+                Width="Auto"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                Command="{Binding ResetCommand}"
+                Style="{StaticResource Style.ButtonControl}">
+
+                <Button.Content>
+
+                    <Label
+                        Content="{DynamicResource String.Level.EditLevelOrder.Reset}"
+                        FontSize="14"
+                        Style="{StaticResource Style.Common.Text}" />
+
+                </Button.Content>
+
+            </Button>
+
+            <Button
+                Width="Auto"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                Command="{Binding AddStageCommand}"
+                Style="{StaticResource Style.ButtonControl}">
+
+                <Button.Content>
+
+                    <Label
+                        Content="{DynamicResource String.Level.EditLevelOrder.AddStage}"
+                        FontSize="14"
+                        Style="{StaticResource Style.Common.Text}" />
+
+                </Button.Content>
+
+            </Button>
+
+        </StackPanel>
+
+        <helpers:ScrollViewerAnimation
+            x:Name="ScrollViewer_Outer"
+            Grid.Row="2"
+            MaxHeight="360"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+
+            <ItemsControl
+                x:Name="ItemsControl_Outer"
+                ItemsSource="{Binding LevelOrders}">
+
+                <ItemsControl.ItemsPanel>
+
+                    <ItemsPanelTemplate>
+
+                        <WrapPanel />
+
+                    </ItemsPanelTemplate>
+
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+
+                    <DataTemplate>
+
+                        <Border
+                            Margin="4"
+                            Style="{StaticResource Style.DeepBorder}">
+
+                            <StackPanel Margin="4">
+
+                                <StackPanel
+                                    Margin="4"
+                                    Orientation="Horizontal">
+
+                                    <Label
+                                        helpers:DynamicStringFormatHelper.Format="{DynamicResource String.Level.EditLevelOrder.Stage}"
+                                        helpers:DynamicStringFormatHelper.Value="{Binding StageNumber}"
+                                        Content="{Binding (helpers:DynamicStringFormatHelper.FormattedValue), RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                                        Style="{StaticResource Style.Common.Text}" />
+
+                                    <Button
+                                        Width="23"
+                                        Height="23"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding DeleteCommand}"
+                                        Cursor="Arrow"
+                                        Foreground="DarkGray"
+                                        Style="{StaticResource MaterialDesignIconButton}">
+
+                                        <materialDesign:PackIcon
+                                            Width="15"
+                                            Height="15"
+                                            Kind="Close" />
+
+                                    </Button>
+
+                                    <Button
+                                        Width="23"
+                                        Height="23"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding UpCommand}"
+                                        Cursor="Arrow"
+                                        Foreground="DarkGray"
+                                        Style="{StaticResource MaterialDesignIconButton}">
+
+                                        <materialDesign:PackIcon
+                                            Width="19"
+                                            Height="19"
+                                            Kind="ChevronLeft" />
+
+                                    </Button>
+
+                                    <Button
+                                        Width="23"
+                                        Height="23"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding DownCommand}"
+                                        Cursor="Arrow"
+                                        Foreground="DarkGray"
+                                        Style="{StaticResource MaterialDesignIconButton}">
+
+                                        <materialDesign:PackIcon
+                                            Width="19"
+                                            Height="19"
+                                            Kind="ChevronRight" />
+
+                                    </Button>
+
+                                    <Button
+                                        Width="23"
+                                        Height="23"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding AddLevelCommand}"
+                                        Cursor="Arrow"
+                                        Foreground="DarkGray"
+                                        Style="{StaticResource MaterialDesignIconButton}">
+
+                                        <materialDesign:PackIcon
+                                            Width="19"
+                                            Height="19"
+                                            Kind="Plus" />
+
+                                    </Button>
+
+                                </StackPanel>
+
+                                <Border
+                                    Margin="4"
+                                    Style="{StaticResource Style.DeepBorder}">
+
+                                    <ItemsControl
+                                        Margin="10"
+                                        ItemsSource="{Binding LevelOrder}">
+
+                                        <ItemsControl.ItemTemplate>
+
+                                            <DataTemplate>
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <Button
+                                                        Width="23"
+                                                        Height="23"
+                                                        VerticalAlignment="Center"
+                                                        Command="{Binding DeleteCommand}"
+                                                        Cursor="Arrow"
+                                                        Foreground="DarkGray"
+                                                        Style="{StaticResource MaterialDesignIconButton}">
+
+                                                        <materialDesign:PackIcon
+                                                            Width="15"
+                                                            Height="15"
+                                                            Kind="Close" />
+
+                                                    </Button>
+
+                                                    <Button
+                                                        Width="23"
+                                                        Height="23"
+                                                        VerticalAlignment="Center"
+                                                        Command="{Binding UpCommand}"
+                                                        Cursor="Arrow"
+                                                        Foreground="DarkGray"
+                                                        Style="{StaticResource MaterialDesignIconButton}">
+
+                                                        <materialDesign:PackIcon
+                                                            Width="19"
+                                                            Height="19"
+                                                            Kind="ChevronUp" />
+
+                                                    </Button>
+
+                                                    <Button
+                                                        Width="23"
+                                                        Height="23"
+                                                        VerticalAlignment="Center"
+                                                        Command="{Binding DownCommand}"
+                                                        Cursor="Arrow"
+                                                        Foreground="DarkGray"
+                                                        Style="{StaticResource MaterialDesignIconButton}">
+
+                                                        <materialDesign:PackIcon
+                                                            Width="19"
+                                                            Height="19"
+                                                            Kind="ChevronDown" />
+
+                                                    </Button>
+
+                                                    <ComboBox
+                                                        MinWidth="100"
+                                                        Margin="6,0,6,0"
+                                                        HorizontalAlignment="Right"
+                                                        ItemsSource="{Binding AllLevelList, Mode=OneWay}"
+                                                        SelectedValue="{Binding LevelID}"
+                                                        Style="{StaticResource Style.Common.ComboBox}"
+                                                        DisplayMemberPath="Key"
+                                                        SelectedValuePath="Value" />
+
+                                                </StackPanel>
+
+                                            </DataTemplate>
+
+                                        </ItemsControl.ItemTemplate>
+
+                                    </ItemsControl>
+
+                                </Border>
+
+                            </StackPanel>
+
+                        </Border>
+
+                    </DataTemplate>
+
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+        </helpers:ScrollViewerAnimation>
+
+
+        <StackPanel
+            Grid.Row="4"
+            FlowDirection="RightToLeft"
+            Orientation="Horizontal">
+
+            <Button
+                Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+                IsCancel="True"
+                Style="{StaticResource Style.ButtonControl}">
+
+                <Button.Content>
+
+                    <Label
+                        Content="{DynamicResource String.Common.Cancel}"
+                        FontSize="14"
+                        Style="{StaticResource Style.Common.Text}" />
+
+                </Button.Content>
+
+                <Button.CommandParameter>
+
+                    <s:Boolean>False</s:Boolean>
+
+                </Button.CommandParameter>
+
+            </Button>
+
+            <Button
+                Margin="8,0,0,0"
+                Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
+                IsDefault="True"
+                Style="{StaticResource Style.ButtonControl}">
+
+                <Button.Content>
+
+                    <Label
+                        Content="{DynamicResource String.Common.Accept}"
+                        FontSize="14"
+                        Style="{StaticResource Style.Common.Text}" />
+
+                </Button.Content>
+
+                <Button.CommandParameter>
+
+                    <s:Boolean>True</s:Boolean>
+
+                </Button.CommandParameter>
+
+            </Button>
+
+        </StackPanel>
+
+    </Grid>
+
+</UserControl>

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
+using System.IO;
 using System.Threading;
 using System.Windows;
 
@@ -18,8 +20,21 @@ internal sealed partial class UserSettings
     {
         SettingsSaving += SettingsSavingEventHandler;
 
+        UpgradeSettingsIfNewVersion();
+
         InitModdingLanguageSetting();
         InitAppLanguageSetting();
+    }
+
+    public void UpgradeSettingsIfNewVersion()
+    {
+        var configPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+        if (!File.Exists(configPath))
+        {
+            Upgrade();
+            Reload();
+            Save();
+        }
     }
 
     #region ModdingLanguage

@@ -227,7 +227,7 @@ public partial class LevelTab : UserControl
     {
         double minX = double.MaxValue, minY = double.MaxValue, maxX = double.MinValue, maxY = double.MinValue;
 
-        foreach (var point in from StageAreaViewModel polygon in ((LevelEditViewModel)DataContext).CurrentStageAreas
+        foreach (var point in from LevelEditViewModel.StageAreaViewModel polygon in ((LevelEditViewModel)DataContext).CurrentStageAreas
                               from Point point in polygon.Points
                               select point)
         {

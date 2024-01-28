@@ -13,16 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SoR4_Studio.Modules.Windows.Tabs
+namespace SoR4_Studio.Modules.Windows.Dialogs;
+
+/// <summary>
+/// LevelOrderEdit.xaml 的交互逻辑
+/// </summary>
+public partial class LevelOrderEditDialog : UserControl
 {
-    /// <summary>
-    /// LevelOrderEdit.xaml 的交互逻辑
-    /// </summary>
-    public partial class LevelOrderEdit : UserControl
+    public LevelOrderEditDialog()
     {
-        public LevelOrderEdit()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+
+        ItemsControl_Outer.MaxWidth = MainWindow.Instance!.Width * 0.8;
+        ScrollViewer_Outer.MaxHeight = MainWindow.Instance!.Height * 0.8;
     }
 }

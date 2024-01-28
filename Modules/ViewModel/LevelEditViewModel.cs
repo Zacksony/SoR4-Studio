@@ -1,13 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MaterialDesignThemes.Wpf;
 using SoR4_Studio.Modules.DataModel.GameDataModel.BeatThemAll;
 using SoR4_Studio.Modules.DataModel.GameDataModel.FieldDescriber;
 using SoR4_Studio.Modules.Utils.Protobuf.ProtoBinary;
+using SoR4_Studio.Modules.Windows.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -37,16 +40,30 @@ internal partial class LevelEditViewModel : ModdingViewModelBase
         InitialEnemySpawnerList();
     }
 
+    [RelayCommand]
+    private static async Task LevelOrderEdit()
+    {
+        LevelOrderEditDialog dialog = new();
+
+        bool accepted = (bool)(await DialogHost.Show(dialog, "Root") ?? false);
+        if (!accepted)
+        {
+            return;
+        }
+
+        ((LevelOrderEditDialogViewModel)dialog.DataContext).Save();
+    }
+
     #region Level & Wave Selection
 
     [ObservableProperty]
-    private static SortedDictionary<string, LevelData.LevelDataClass> levelList = [];
+    private SortedDictionary<string, LevelData.LevelDataClass> levelList = [];
 
     [ObservableProperty]
     private LevelData.LevelDataClass currentLevel;
 
     [ObservableProperty]
-    private static List<Tuple<string, LevelData.LevelDataClass.WaveClass>> waveList = [];
+    private List<Tuple<string, LevelData.LevelDataClass.WaveClass>> waveList = [];
 
     [ObservableProperty]
     private LevelData.LevelDataClass.WaveClass currentWave;
@@ -602,97 +619,97 @@ internal partial class LevelEditViewModel : ModdingViewModelBase
             CurrentWave = foundWave;
         }
     }
-}
 
-internal partial class StageAreaViewModel : ObservableObject
-{
-    [ObservableProperty]
-    private PointCollection points = [];
-}
-
-internal partial class SpawnerPointViewModel : ObservableObject
-{
-    [ObservableProperty]
-    private LevelData.LevelDataClass.WaveClass.SpawnerClass? spawner;
-
-    [ObservableProperty]
-    private double x;
-
-    [ObservableProperty]
-    private double y;
-
-    [ObservableProperty]
-    private string spawnerType = "";
-}
-
-internal enum SpawnerType
-{
-    Unknown,
-    Pickup,
-    Breakable,
-    Enemy
-}
-
-internal partial class EnemySpawner : ModdingViewModelBase
-{
-    [ObservableProperty]
-    private SoR4_DirectString? enemyID;
-
-    [ObservableProperty]
-    private SoR4_DirectString? holdWeaponID;
-
-    [ObservableProperty]
-    private SoR4_Int32? hP;
-
-    partial void OnHoldWeaponIDChanged(SoR4_DirectString? value)
+    internal partial class StageAreaViewModel : ObservableObject
     {
-        OnPropertyChanged(nameof(NoHoldWeapon));
-        OnPropertyChanged(nameof(IsHoldWeaponNotNull));
+        [ObservableProperty]
+        private PointCollection points = [];
     }
 
-    partial void OnHPChanged(SoR4_Int32? value)
+    internal partial class SpawnerPointViewModel : ObservableObject
     {
-        OnPropertyChanged(nameof(IsGlobalHP));
-        OnPropertyChanged(nameof(IsHPNotNull));
+        [ObservableProperty]
+        private LevelData.LevelDataClass.WaveClass.SpawnerClass? spawner;
+
+        [ObservableProperty]
+        private double x;
+
+        [ObservableProperty]
+        private double y;
+
+        [ObservableProperty]
+        private string spawnerType = "";
     }
 
-    public bool IsHoldWeaponNotNull => HoldWeaponID is not null;
-
-    public bool IsHPNotNull => HP is not null;
-
-    public bool NoHoldWeapon
+    internal enum SpawnerType
     {
-        get
+        Unknown,
+        Pickup,
+        Breakable,
+        Enemy
+    }
+
+    internal partial class EnemySpawner : ObservableObject
+    {
+        [ObservableProperty]
+        private SoR4_DirectString? enemyID;
+
+        [ObservableProperty]
+        private SoR4_DirectString? holdWeaponID;
+
+        [ObservableProperty]
+        private SoR4_Int32? hP;
+
+        partial void OnHoldWeaponIDChanged(SoR4_DirectString? value)
         {
-            return !Mod.PickupIDs.Contains(HoldWeaponID?.Value ?? "");
+            OnPropertyChanged(nameof(NoHoldWeapon));
+            OnPropertyChanged(nameof(IsHoldWeaponNotNull));
         }
 
-        set
+        partial void OnHPChanged(SoR4_Int32? value)
         {
-            if (HoldWeaponID is null)
+            OnPropertyChanged(nameof(IsGlobalHP));
+            OnPropertyChanged(nameof(IsHPNotNull));
+        }
+
+        public bool IsHoldWeaponNotNull => HoldWeaponID is not null;
+
+        public bool IsHPNotNull => HP is not null;
+
+        public bool NoHoldWeapon
+        {
+            get
             {
-                return;
+                return !Mod.PickupIDs.Contains(HoldWeaponID?.Value ?? "");
             }
-            HoldWeaponID.Value = value ? "" : "objects/pickup_knife";
-            OnPropertyChanged();
-        }
-    }
 
-    public bool? IsGlobalHP
-    {
-        get
-        {
-            return HP is null ? null : HP < 0;
-        }
-
-        set
-        {
-            if (HP is null)
+            set
             {
-                return;
+                if (HoldWeaponID is null)
+                {
+                    return;
+                }
+                HoldWeaponID.Value = value ? "" : "objects/pickup_knife";
+                OnPropertyChanged();
             }
-            HP.Value = (bool)value! ? -1 : 80;
-            OnPropertyChanged();
+        }
+
+        public bool? IsGlobalHP
+        {
+            get
+            {
+                return HP is null ? null : HP < 0;
+            }
+
+            set
+            {
+                if (HP is null)
+                {
+                    return;
+                }
+                HP.Value = (bool)value! ? -1 : 80;
+                OnPropertyChanged();
+            }
         }
     }
 }

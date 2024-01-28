@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
 using SoR4_Studio.Modules.DataModel.GameDataModel.BeatThemAll;
-using SoR4_Studio.Modules.Windows.Tabs;
+using SoR4_Studio.Modules.Windows.Dialogs;
 using System;
 using System.Threading.Tasks;
 
@@ -33,7 +33,7 @@ internal partial class DifficultyListViewModel : ModdingViewModelBase
 
     protected override void OnModChanged()
     {
-        DifficultyList.New(Mod.MetaGameConfigData.Difficulties);
+        DifficultyList.SetBaseList(Mod.MetaGameConfigData.Difficulties);
     }
 
     #endregion

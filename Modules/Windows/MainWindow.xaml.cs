@@ -19,6 +19,8 @@ namespace SoR4_Studio.Modules.Windows;
 /// </summary>
 public partial class MainWindow : Window
 {
+    public static MainWindow? Instance { get; private set; }
+
     public MainWindow()
     {
         InitializeComponent();
@@ -27,6 +29,8 @@ public partial class MainWindow : Window
         MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 8;
 
         NotifyIfHasUpdate();
+
+        Instance = this;
     }
 
     #region Window Interactions

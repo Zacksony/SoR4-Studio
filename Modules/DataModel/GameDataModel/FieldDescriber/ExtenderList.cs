@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using SoR4_Studio.Modules.Utils.Protobuf.ProtoBinary;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SoR4_Studio.Modules.DataModel.GameDataModel.FieldDescriber;
@@ -14,7 +15,9 @@ internal class ExtenderList<T>(FieldDescriber describer) : IList<T> where T : Fi
 
     public GameData GameData { get; init; } = describer.GameData;
 
-    public Repeated BaseList { get; init; } = describer.Result!.UpgradeToRepeated().Repeated;
+    public ProtoField BaseField { get; init; } = describer.Result!.UpgradeToRepeated();
+
+    public Repeated BaseList => BaseField.Repeated;
 
     public int Count => BaseList.Count;
 

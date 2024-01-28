@@ -374,4 +374,18 @@
 
     </Style>
 
+    <Style
+        x:Key="Style.DeepBorder"
+        TargetType="{x:Type Border}">
+
+        <Setter Property="Background" Value="#41080808" />
+
+        <Setter Property="BorderBrush" Value="#404040" />
+
+        <Setter Property="BorderThickness" Value="1" />
+
+        <Setter Property="CornerRadius" Value="7" />
+
+    </Style>
+
 </ResourceDictionary>

@@ -7,6 +7,8 @@ namespace SoR4_Studio.Modules.ViewModel;
 
 internal class ObservableList<T>(IList<T> list) : IList, IList<T>, INotifyCollectionChanged
 {
+    public ObservableList() : this(new List<T>()) { }
+
     protected IList<T> Items { get; set; } = list;
 
     #region IList<T>
@@ -155,7 +157,7 @@ internal class ObservableList<T>(IList<T> list) : IList, IList<T>, INotifyCollec
 
     #region Extra
 
-    public void New(IList<T> list)
+    public void SetBaseList(IList<T> list)
     {
         Items = list;
 
@@ -181,6 +183,11 @@ internal class ObservableList<T>(IList<T> list) : IList, IList<T>, INotifyCollec
 
     public void Swap(int index1, int index2)
     {
+        if (index1 < 0 || index1 >= Count || index2 < 0 || index2 >= Count)
+        {
+            return;
+        }
+
         (Items[index1], Items[index2]) = (Items[index2], Items[index1]);
 
         OnCollectionReset();
