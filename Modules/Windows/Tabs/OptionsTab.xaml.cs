@@ -64,4 +64,9 @@ public partial class OptionsTab : UserControl
     {
         UserSettings.Default.ModdingLanguage = (string)ComboBox_ModdingLanguage.SelectedItem;
     }
+
+    private void Button_Options_UnifyGameLanguage_Click(object sender, RoutedEventArgs e)
+    {
+        ModdingViewModelBase.Mod.LocalizationData.UnifyLanguage();
+    }
 }

@@ -41,6 +41,8 @@
     <s:String x:Key="String.Options.GamePath.Desc">We need "Streets of Rage 4\"</s:String>
     <s:String x:Key="String.Options.GameLanguage.Title">Modding Language</s:String>
     <s:String x:Key="String.Options.GameLanguage.Desc">Set target language of Localized Strings（e.g. difficulty names)</s:String>
+    <s:String x:Key="String.Options.UnifyGameLanguage.Title">Unify All Lnguages</s:String>
+    <s:String x:Key="String.Options.UnifyGameLanguage.Button">Unify</s:String>
 
     <s:String x:Key="String.Difficulty.Add">Add</s:String>
     <s:String x:Key="String.Difficulty.Add.Title">Add a new difficulty</s:String>

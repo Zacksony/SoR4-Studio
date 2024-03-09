@@ -29,7 +29,19 @@ internal class LocalizationData(GameData gameData) : FieldExtenderBase(gameData,
 
     public void UnifyLanguage()
     {
+        foreach (var language in LanguageList)
+        {
+            if (language.LanguageName.Value == Properties.UserSettings.Default.ModdingLanguage)
+            {
+                continue;
+            }
 
+            language.StringDictionary.Clear();
+            foreach (var keyValue in CurrentStringDictionary ?? new(new()))
+            {
+                language.StringDictionary.Add(keyValue.DeepClone<LanguageClass.StringKeyValueClass>());
+            }
+        }
     }
 
     public string AddValue(string value)

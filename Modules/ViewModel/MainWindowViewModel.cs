@@ -75,7 +75,7 @@ internal partial class MainWindowViewModel : ModdingViewModelBase
         if (File.Exists(SavePath))
         {
             DoBackup();
-            modIO.Save(SavePath);
+            ModIO.OutputToFile(SavePath);
         }
         else
         {
@@ -103,7 +103,7 @@ internal partial class MainWindowViewModel : ModdingViewModelBase
                 DoBackup();
             }
 
-            modIO.Save(SavePath);
+            ModIO.OutputToFile(SavePath);
         }
         else
         {
@@ -113,7 +113,7 @@ internal partial class MainWindowViewModel : ModdingViewModelBase
 
     private static void JustSave(string path)
     {
-        modIO.Save(path);
+        ModIO.OutputToFile(path);
     }
 
     [RelayCommand]
@@ -146,7 +146,7 @@ internal partial class MainWindowViewModel : ModdingViewModelBase
         if (dialog.ShowDialog() is true)
         {
             using FileStream copy = TempFileManager.GenNewTempFile();
-            modIO.Output(copy);
+            ModIO.OutputToStream(copy);
 
             try
             {

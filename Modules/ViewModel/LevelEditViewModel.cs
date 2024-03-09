@@ -81,6 +81,10 @@ internal partial class LevelEditViewModel : ModdingViewModelBase
             {
                 newLevelList.Add(displayName, Mod.LevelData[id]);
             }
+            else
+            {
+                newLevelList.Add(id, Mod.LevelData[id]);
+            }
         }
 
         LevelList = newLevelList;

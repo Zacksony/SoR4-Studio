@@ -173,6 +173,49 @@
 
             </Border>
 
+            <Border
+                Margin="8"
+                Background="#04FFFFFF"
+                BorderBrush="#26FFFFFF"
+                BorderThickness="1"
+                CornerRadius="8">
+
+                <Grid Margin="20">
+
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="96" />
+
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        Content="{DynamicResource String.Options.UnifyGameLanguage.Title}"
+                        Style="{StaticResource Style.Label.OptionTitle}" />
+
+                    <Button
+                        Name="Button_Options_UnifyGameLanguage"
+                        Grid.Column="2"
+                        Click="Button_Options_UnifyGameLanguage_Click"
+                        Style="{StaticResource Style.Button}">
+
+                        <Button.Content>
+
+                            <Label
+                                Grid.Column="1"
+                                Content="{DynamicResource String.Options.UnifyGameLanguage.Button}"
+                                Style="{StaticResource Style.Common.Text}" />
+
+                        </Button.Content>
+
+                    </Button>
+
+                </Grid>
+
+            </Border>
+
         </StackPanel>
 
     </helpers:ScrollViewerAnimation>

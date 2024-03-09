@@ -1,6 +1,9 @@
 ﻿using SoR4_Studio.Modules.DataModel.GameDataModel;
+using SoR4_Studio.Modules.DataModel.GameDataModel.FieldDescriber;
+using SoR4_Studio.Modules.ViewModel;
 using System;
 using System.IO;
+using Mvmb = SoR4_Studio.Modules.ViewModel.ModdingViewModelBase;
 
 namespace SoR4_Studio;
 
@@ -8,37 +11,11 @@ internal static class Test
 {
     public static void Main()
     {
-        //GameDataIO io = new(Assembly.GetExecutingAssembly().GetManifestResourceStream("SoR4_Studio.Private.r18163.bin")!, false);
-
-        //foreach (string decorID in io.GameData.DecorIDs)
-        //{
-        //    DecorData.DecorDataClass decorData = io.GameData.DecorData[decorID];
-        //    Console.WriteLine(decorID);
-        //    foreach (var area in decorData.Areas)
-        //    {
-        //        foreach ((int x, int y) in area)
-        //        {
-        //            Console.WriteLine($"{x}, {y}");
-        //        }
-
-        //        Console.WriteLine("-----------------------");
-        //    }
-        //}
-
-        //int i = 0;
-        //int total = io.GameData.TotalChunkCount;
-        //foreach (var pair1 in io.GameData.Chunks)
-        //{
-        //    foreach (var pair2 in pair1.Value)
-        //    {
-        //        _ = pair2.Value.Root;
-        //        Console.WriteLine($"({++i}/{total}) {pair1.Key}:{pair2.Key}");
-        //    }
-        //}
-
-        // Save
-        //string path = @"D:\SteamLibrary\steamapps\common\Streets of Rage 4\data\bigfile";
-        //io.Save(path, true);
+        string fileName = @"D:\SteamLibrary\steamapps\common\Streets of Rage 4\data\bigfile";
+        Mvmb.ChangeMod(File.OpenRead(fileName), true);
+        FieldAddress address = new(@"MetaFont", @"gui/fonts/fntmenuslight", 7, 0, 2);
+        Mvmb.Mod[address]!.String = @"GUI/Fonts/NotoSans/NotoSansSC-Bold.otf";
+        Mvmb.ModIO.OutputToFile(fileName);
     }
 
     public static void BinDisp(this byte b) => Console.Write("{0:00000000} ", int.Parse(Convert.ToString(b, 2)));
