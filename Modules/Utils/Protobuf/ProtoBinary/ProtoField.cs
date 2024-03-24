@@ -129,6 +129,12 @@ internal unsafe class ProtoField : IDisposable
             ThrowIfTypeMismatch(ProtoFieldType.Message);
             return _message!;
         }
+
+        set
+        {
+            ThrowIfTypeMismatch(ProtoFieldType.Message);
+            _message = value;
+        }
     }
 
     private Repeated? _repeated;
@@ -138,6 +144,12 @@ internal unsafe class ProtoField : IDisposable
         {
             ThrowIfTypeMismatch(ProtoFieldType.Repeated);
             return _repeated!;
+        }
+
+        set
+        {
+            ThrowIfTypeMismatch(ProtoFieldType.Repeated);
+            _repeated = value;
         }
     }
 

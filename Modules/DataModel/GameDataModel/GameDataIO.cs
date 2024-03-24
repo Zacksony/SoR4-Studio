@@ -69,7 +69,7 @@ internal class GameDataIO : IDisposable
     private GameData? _gameData;
     public GameData GameData => _gameData ??= new(PreScanChunks());
 
-    public void OutputToFile(string outputFileName, bool doCompress = true, CompressionLevel compressionLevel = CompressionLevel.Fastest)
+    public void OutputToFile(string outputFileName, bool doCompress = true, CompressionLevel compressionLevel = CompressionLevel.Optimal)
     {
         Stream outputStream;
 

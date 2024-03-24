@@ -33,70 +33,70 @@ internal class CharacterData(GameData gameData)
         {
             public static List<string> TrigerDirectionDef { get; } =
             [
-                "None",
-                "HoldForward",
-                "TapForward",
-                "ForwardForward",
-                "HoldDown",
-                "DownDown",
-                "Hadoken",
-                "Up",
-                "Backward",
-                "DiagonalUp",
-                "DiagonalDown",
-                "BackwardDiagonalUp",
-                "BackwardDiagonalDown",
-                "AiSpecialJump",
-                "AiSpecialJumpForward",
-                "AiSpecialJumpBackward",
-                "AllyThrown"
+                "None", //0
+                "HoldForward", //1
+                "TapForward", //2
+                "ForwardForward", //3
+                "HoldDown", //4
+                "DownDown", //5
+                "Hadoken", //6
+                "Up", //7
+                "Backward", //8
+                "DiagonalUp", //9
+                "DiagonalDown", //10
+                "BackwardDiagonalUp", //11
+                "BackwardDiagonalDown", //12
+                "AiSpecialJump", //13
+                "AiSpecialJumpForward", //14
+                "AiSpecialJumpBackward", //15
+                "AllyThrown" //16
             ];
 
             public static List<string> TrigerButtonDef { get; } =
             [
-                "None",
-                "PressX",
-                "PressY",
-                "PressB",
-                "FuryX",
-                "FuryY",
-                "FuryB",
-                "FuryAny",
-                "ForwardDash",
-                "BackDash",
-                "Parry",
-                "Taunt",
-                "GrabFront",
-                "GrabBack",
-                "HoldOnlyForward",
-                "Always",
-                "GrabContinue",
-                "PressA",
-                "HoldBack",
-                "AiTargetInDetector",
-                "SecondVaultOrPressA",
-                "GrabFrontOrBack",
-                "StarMove",
-                "HitWall",
-                "HitWallStrict",
-                "GrabAirFront",
-                "GrabAirBack",
-                "GrabAirFrontOrBack",
-                "HoldAndReleaseX",
-                "TouchEnemy",
-                "DepthDashUp",
-                "DepthDashDown"
+                "None", //0
+                "PressX", //1
+                "PressY", //2
+                "PressB", //3
+                "FuryX", //4
+                "FuryY", //5
+                "FuryB", //6
+                "FuryAny", //7
+                "ForwardDash", //8
+                "BackDash", //9
+                "Parry", //10
+                "Taunt", //11
+                "GrabFront", //12
+                "GrabBack", //13
+                "HoldOnlyForward", //14
+                "Always", //15
+                "GrabContinue", //16
+                "PressA", //17
+                "HoldBack", //18
+                "AiTargetInDetector", //19
+                "SecondVaultOrPressA", //20
+                "GrabFrontOrBack", //21
+                "StarMove", //22
+                "HitWall", //23
+                "HitWallStrict", //24
+                "GrabAirFront", //25
+                "GrabAirBack", //26
+                "GrabAirFrontOrBack", //27
+                "HoldAndReleaseX", //28
+                "TouchEnemy", //29
+                "DepthDashUp", //30
+                "DepthDashDown" //31
             ];
 
             public static List<string> ArmorTypeDef { get; } =
             [
-                "None",
-                "Armor before first hit",
-                "Armor whole move",
-                "I-frames before first hit",
-                "I-frames whole move",
-                "U-frames before first hit",
-                "U-frames whole move",
+                "None", //0
+                "Armor before first hit", //1
+                "Armor whole move", //2
+                "I-frames before first hit", //3
+                "I-frames whole move", //4
+                "U-frames before first hit", //5
+                "U-frames whole move", //6
             ];
 
             public SoR4_DirectString MoveID => this[1]!;

@@ -35,10 +35,10 @@ internal class CurrentVersion
     // current version will be a pre-release if revisionNumber > 0.
 
      static uint majorVersion     = 0
-    ;static uint minorVersion     = 1
-    ;static uint buildVersion     = 2
+    ;static uint minorVersion     = 2
+    ;static uint buildVersion     = 0
 
-    ;static uint revisionNumber   = 0
+    ;static uint revisionNumber   = 1
 
     ;static string fullVersion   = $"{majorVersion}.{minorVersion}.{buildVersion}.{revisionNumber}";
 #>

@@ -51,7 +51,21 @@ internal class GameData : IDisposable
         }
     }
 
-    private ProtoField? this[string mainKey, string subKey, params int[] ints] => Chunks[mainKey][subKey][ints];
+    private ProtoField? this[string mainKey, string subKey, params int[] ints]
+    {
+        get
+        {
+            if (Chunks.TryGetValue(mainKey, out var subChunks)
+                && subChunks.TryGetValue(subKey, out var chunk))
+            {
+                return chunk[ints];
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
 
     private ProtoField? this[string mainKey, int index]
     {
@@ -98,18 +112,24 @@ internal class GameData : IDisposable
     public LocalizationData LocalizationData { get; init; }
 
     public HashSet<string> CharacterIDs { get; init; } = [];
+    public HashSet<string> AnimatedSpriteIDs { get; init; } = [];
     public HashSet<string> PickupIDs { get; init; } = [];
     public HashSet<string> LevelIDs { get; init; } = [];
     public HashSet<string> DestroyableIDs { get; init; } = [];
     public HashSet<string> FeedbackIDs { get; init; } = [];
     public HashSet<string> BtNodeIDs { get; init; } = [];
     public HashSet<string> DecorIDs { get; init; } = [];
+    public HashSet<string> GuiNodeIDs { get; init; } = [];
 
     protected void GenerateIDs()
     {
         foreach (var chunk in this[MainKeys.CharacterData])
         {
             CharacterIDs.Add(chunk.Key);
+        }
+        foreach (var chunk in this[MainKeys.AnimatedSpriteData])
+        {
+            AnimatedSpriteIDs.Add(chunk.Key);
         }
         foreach (var chunk in this[MainKeys.PickupData])
         {
@@ -134,6 +154,10 @@ internal class GameData : IDisposable
         foreach (var chunk in this[MainKeys.DecorData])
         {
             DecorIDs.Add(chunk.Key);
+        }
+        foreach (var chunk in this[MainKeys.GuiNodeData])
+        {
+            GuiNodeIDs.Add(chunk.Key);
         }
     }
 
