@@ -5,6 +5,7 @@ using SoR4_Studio.Modules.Utils.Protobuf.ProtoBinary;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using Mvmb = SoR4_Studio.Modules.ViewModel.ModdingViewModelBase;
 
@@ -16,7 +17,7 @@ internal static class Test
     
     public static void Main()
     {
-        
+
     }
 
     public static void Raining()
@@ -76,67 +77,55 @@ internal static class Test
         GameData mod = modIO.GameData;
 
         Repeated comboInfo = mod[new(MainKeys.GameplayConfigData)]![103]!.Repeated;
-        comboInfo[1][1]!.Int32 = 60;
+
+        comboInfo[1][1]!.Int32 = 300;
         comboInfo[1][8, 1]!.Int32 = 255;
         comboInfo[1][8, 2]!.Int32 = 245;
         comboInfo[1][8, 3]!.Int32 = 0;
 
-        comboInfo[2][1]!.Int32 = 120;
+        comboInfo[2][1]!.Int32 = 600;
         comboInfo[2][8, 1]!.Int32 = 255;
         comboInfo[2][8, 2]!.Int32 = 96;
         comboInfo[2][8, 3]!.Int32 = 0;
 
-        comboInfo[3][1]!.Int32 = 300;
+        comboInfo[3][1]!.Int32 = 1000;
         comboInfo[3][8, 1]!.Int32 = 127;
         comboInfo[3][8, 2]!.Int32 = 255;
         comboInfo[3][8, 3]!.Int32 = 0;
 
-        comboInfo[4][1]!.Int32 = 600;
+        comboInfo[4][1]!.Int32 = 2000;
         comboInfo[4][8, 1]!.Int32 = 0;
         comboInfo[4][8, 2]!.Int32 = 255;
         comboInfo[4][8, 3]!.Int32 = 226;
 
-        comboInfo[5][1]!.Int32 = 1000;
-        comboInfo[5][8, 1]!.Int32 = 0;
-        comboInfo[5][8, 2]!.Int32 = 99;
+        comboInfo[5][1]!.Int32 = 4000;
+        comboInfo[5][8, 1]!.Int32 = 135;
+        comboInfo[5][8, 2]!.Int32 = 0;
         comboInfo[5][8, 3]!.Int32 = 255;
 
-        comboInfo[6][1]!.Int32 = 2000;
-        comboInfo[6][8, 1]!.Int32 = 135;
+        comboInfo[6][1]!.Int32 = 6000;
+        comboInfo[6][8, 1]!.Int32 = 255;
         comboInfo[6][8, 2]!.Int32 = 0;
-        comboInfo[6][8, 3]!.Int32 = 255;
+        comboInfo[6][8, 3]!.Int32 = 141;
 
-        comboInfo[7][1]!.Int32 = 4000;
+        comboInfo[7][1]!.Int32 = 8000;
         comboInfo[7][8, 1]!.Int32 = 255;
         comboInfo[7][8, 2]!.Int32 = 0;
-        comboInfo[7][8, 3]!.Int32 = 110;
-
-        comboInfo[8][1]!.Int32 = 6000;
-        comboInfo[8][8, 1]!.Int32 = 255;
-        comboInfo[8][8, 2]!.Int32 = 0;
-        comboInfo[8][8, 3]!.Int32 = 0;
-
-        comboInfo[9][1]!.Int32 = 8000;
-        comboInfo[9][8, 1]!.Int32 = 237;
-        comboInfo[9][8, 2]!.Int32 = 192;
-        comboInfo[9][8, 3]!.Int32 = 192;
+        comboInfo[7][8, 3]!.Int32 = 0;
 
         modIO.OutputToFile(gameBigfileName);
     }
 
-    public static void Modding2()
+    public static void ModdingMove()
     {
         string v8FileName = @"D:\Games\SOR4_MOD_PROJ\v8\original";
-        string xpFileName = @"D:\Games\SOR4_MOD_PROJ\v8\xp\Publish\xp-v1.1\bigfile";
         GameDataIO modIO = new(File.OpenRead(gameBigfileName), isCompressed: true);
         GameData mod = modIO.GameData;
         GameDataIO v8IO = new(File.OpenRead(v8FileName), isCompressed: true);
         GameData v8 = v8IO.GameData;
-        GameDataIO xpIO = new(File.OpenRead(xpFileName), isCompressed: true);
-        GameData xp = xpIO.GameData;
 
-        FieldAddress characterAddress = new(MainKeys.CharacterData, "characters/sor4_playables/chrsor4shivaspecialforward");
-        FieldAddress spriteAdress = new(MainKeys.AnimatedSpriteData, "animatedsprites/sor4/playables/sprsor4max_playable");
+        FieldAddress characterAddress = new(MainKeys.CharacterData, "characters/sor4_playables/chrsor4shiva");
+        FieldAddress spriteAdress = new(MainKeys.AnimatedSpriteData, "animatedsprites/sor4/playables/sprsor4shiva_playable");
 
         (ProtoField move, ProtoField anime) FindMove(GameData gameData, FieldAddress characterAddress, FieldAddress spriteAddress, string moveName)
         {
@@ -164,7 +153,7 @@ internal static class Test
             return (move, anime);
         }
 
-        string moveName = "LariatAspire";
+        string moveName = "SpecialNeutralAlt";
 
         (ProtoField moveMod, ProtoField animeMod) = FindMove(mod, characterAddress, spriteAdress, moveName);
         (ProtoField moveBase, ProtoField animeBase) = FindMove(v8, characterAddress, spriteAdress, moveName);
@@ -172,9 +161,7 @@ internal static class Test
         moveMod.Message = moveBase.Message;
         animeMod.Message = animeBase.Message;
 
-        mod[characterAddress]!.Message = v8[characterAddress]!.Message;
-
-        //modIO.OutputToFile(outputFileName);
+        modIO.OutputToFile(gameBigfileName);
     }
 
     public static void Modding()

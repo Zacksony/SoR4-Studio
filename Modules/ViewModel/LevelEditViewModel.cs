@@ -247,6 +247,21 @@ internal partial class LevelEditViewModel : ModdingViewModelBase
     [ObservableProperty]
     private LevelData.LevelDataClass.WaveClass.SpawnerClass? currentSpawner;
 
+    public SpawnerPointViewModel? CurrentSpawnerVM
+    {
+        get
+        {
+            foreach (var spawnerVM in from spawnerVM in CurrentSpawners
+                                      where spawnerVM.Spawner == CurrentSpawner
+                                      select spawnerVM)
+            {
+                return spawnerVM;
+            }
+
+            return null;
+        }
+    }
+
     private void InitialPickupList()
     {
         SortedDictionary<string, string> newList = new(StringComparer.CurrentCulture);
@@ -294,6 +309,9 @@ internal partial class LevelEditViewModel : ModdingViewModelBase
 
     partial void OnCurrentSpawnerChanged(LevelData.LevelDataClass.WaveClass.SpawnerClass? value)
     {
+        OnPropertyChanged(nameof(PosX));
+        OnPropertyChanged(nameof(PosY));
+
         OnPropertyChanged(nameof(IsPickup));
         OnPropertyChanged(nameof(Pickup));
         OnPropertyChanged(nameof(IsEmptyPickup));
@@ -310,6 +328,38 @@ internal partial class LevelEditViewModel : ModdingViewModelBase
         OnPropertyChanged(nameof(CanSetEnemySpawnMultip));
 
         InitialEnemySpawnerList();
+    }
+
+    public float? PosX
+    {
+        get => CurrentSpawner?.PosX.Value;
+
+        set
+        {
+            if (CurrentSpawner is null)
+            {
+                return;
+            }
+            CurrentSpawner.PosX.Value = (float)value!;
+            CurrentSpawnerVM!.UpdatePosition();
+            OnPropertyChanged();
+        }
+    }
+
+    public float? PosY
+    {
+        get => CurrentSpawner?.PosY.Value;
+
+        set
+        {
+            if (CurrentSpawner is null)
+            {
+                return;
+            }
+            CurrentSpawner.PosY.Value = (float)value!;
+            CurrentSpawnerVM?.UpdatePosition();
+            OnPropertyChanged();
+        }
     }
 
     public bool IsPickup => GetSpawnerType(CurrentSpawner) == SpawnerType.Pickup;
@@ -469,8 +519,8 @@ internal partial class LevelEditViewModel : ModdingViewModelBase
         {
             SpawnerType spawnerType = GetSpawnerType(source);
 
-            double x = (double)source.PosX / VIS_SCALE;
-            double y = (double)-source.PosY / VIS_SCALE;
+            double x = (double)source.PosX;
+            double y = (double)-source.PosY;
 
             for (int repeatCount = 2; repeatCount > 0; repeatCount--)
             {
@@ -643,6 +693,16 @@ internal partial class LevelEditViewModel : ModdingViewModelBase
 
         [ObservableProperty]
         private string spawnerType = "";
+
+        public void UpdatePosition()
+        {
+            if (Spawner is null)
+            { 
+                return;
+            }
+            X = Spawner.PosX.Value;
+            Y = -Spawner.PosY.Value;
+        }
     }
 
     internal enum SpawnerType

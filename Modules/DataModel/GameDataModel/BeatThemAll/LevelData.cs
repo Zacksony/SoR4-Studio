@@ -33,8 +33,8 @@ internal class LevelData(GameData gameData)
 
             internal class SpawnerClass : FieldExtenderBase
             {
-                public SoR4_Int32 PosX => this[2, 1, 1]!;
-                public SoR4_Int32 PosY => this[2, 2, 1]!;
+                public SoR4_Scaled PosX => this[2, 1, 1]!;
+                public SoR4_Scaled PosY => this[2, 2, 1]!;
                 public SoR4_DirectString? OnGroundObjectID => this[10, 1, 1];
                 public SoR4_DirectString? BreakableID => this[11, 1, 1];
                 public SoR4_DirectString? InBreakablePickupID => this[11, 2, 1];

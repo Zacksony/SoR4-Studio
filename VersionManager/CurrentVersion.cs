@@ -7,8 +7,8 @@
 
 using System.Reflection;
 
-[assembly: AssemblyVersion("0.2.0.1")]
-[assembly: AssemblyFileVersion("0.2.0.1")]
+[assembly: AssemblyVersion("0.1.3.0")]
+[assembly: AssemblyFileVersion("0.1.3.0")]
 
 namespace SoR4_Studio.VersionManager;
 
@@ -18,11 +18,11 @@ internal class CurrentVersion
 
     public string AppName { get; } = Assembly.GetExecutingAssembly().GetName().Name!;
     public string DisplayAppName => AppName.Replace("-", " ");
-    public uint PreReleaseNumber { get; } = 1;
+    public uint PreReleaseNumber { get; } = 0;
     public bool IsPreRelease => PreReleaseNumber != 0;
     public uint MajorVersion { get; } = 0;
-    public uint MinorVersion { get; } = 2;
-    public uint BuildVersion { get; } = 0;
+    public uint MinorVersion { get; } = 1;
+    public uint BuildVersion { get; } = 3;
     public string AppVersion => $"{MajorVersion}.{MinorVersion}.{BuildVersion}";
     public string DisplayVersion => AppVersion + (IsPreRelease ? $" ( pre{PreReleaseNumber} )" : string.Empty);
 

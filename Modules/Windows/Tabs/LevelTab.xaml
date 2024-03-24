@@ -133,6 +133,7 @@
                                 MouseEnter="SpawnPoint_MouseEnter"
                                 MouseLeave="SpawnPoint_MouseLeave"
                                 MouseLeftButtonDown="SpawnPoint_MouseLeftButtonDown"
+                                MouseRightButtonDown="SpawnPoint_MouseRightButtonDown"
                                 Opacity="0.5">
 
                                 <Border.RenderTransform>
@@ -310,6 +311,7 @@
                     MouseLeftButtonDown="StageAreaCanvas_MouseLeftButtonDown"
                     MouseLeftButtonUp="StageAreaCanvas_MouseLeftButtonUp"
                     MouseMove="StageAreaCanvas_MouseMove"
+                    MouseRightButtonUp="StageAreaCanvas_MouseRightButtonUp"
                     MouseWheel="StageAreaCanvas_MouseWheel"
                     SizeChanged="StageAreaCanvas_SizeChanged"
                     Unloaded="StageAreaCanvas_Unloaded">
@@ -598,8 +600,6 @@
                         Content="{DynamicResource String.Level.Spawner.Setting.Title}"
                         Style="{StaticResource Style.Common.DialogTitle}" />
 
-                    <!--
-
                     <Grid Margin="0,8,0,0">
 
                         <Grid.ColumnDefinitions>
@@ -621,7 +621,8 @@
                             MinWidth="32"
                             HorizontalAlignment="Right"
                             HorizontalContentAlignment="Center"
-                            Style="{StaticResource Style.Common.TextBox}" />
+                            Style="{StaticResource Style.Common.TextBox}"
+                            Text="{Binding PosX, Mode=TwoWay}" />
 
                     </Grid>
 
@@ -646,11 +647,10 @@
                             MinWidth="32"
                             HorizontalAlignment="Right"
                             HorizontalContentAlignment="Center"
-                            Style="{StaticResource Style.Common.TextBox}" />
+                            Style="{StaticResource Style.Common.TextBox}"
+                            Text="{Binding PosY, Mode=TwoWay}" />
 
                     </Grid>
-
-                    -->
 
                     <Grid
                         Margin="0,8,0,0"

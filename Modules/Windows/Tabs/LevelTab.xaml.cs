@@ -47,6 +47,8 @@ public partial class LevelTab : UserControl
 
     private Point previousMousePosition = new(0, 0);
 
+    private bool isSpawnerDraging = false;
+
     private void StageAreaCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (!isMouseOnSpawnPoint)
@@ -67,20 +69,32 @@ public partial class LevelTab : UserControl
 
     private void StageAreaCanvas_MouseMove(object sender, MouseEventArgs e)
     {
-        if (!(e.LeftButton == MouseButtonState.Pressed))
+        if (isSpawnerDraging)
         {
-            return;
+            Vector movedDistance = e.GetPosition(this) - previousMousePosition;
+
+            if (((LevelEditViewModel)DataContext).CurrentSpawner is null)
+            {
+                return;
+            }
+
+            ((LevelEditViewModel)DataContext).PosX += (float)(movedDistance.X / SpawnersViewScaleTransform.ScaleX);
+            ((LevelEditViewModel)DataContext).PosY -= (float)(movedDistance.Y / SpawnersViewScaleTransform.ScaleY);
+
+            previousMousePosition = e.GetPosition(this);
         }
+        else if (e.LeftButton == MouseButtonState.Pressed)
+        {
+            Vector movedDistance = e.GetPosition(this) - previousMousePosition;
 
-        Vector movedDistance = e.GetPosition(this) - previousMousePosition;
+            StageAreaTranslateTransform.X += movedDistance.X / StageAreaScaleTransform.ScaleX;
+            StageAreaTranslateTransform.Y += movedDistance.Y / StageAreaScaleTransform.ScaleY;
 
-        StageAreaTranslateTransform.X += movedDistance.X / StageAreaScaleTransform.ScaleX;
-        StageAreaTranslateTransform.Y += movedDistance.Y / StageAreaScaleTransform.ScaleY;
+            SpawnersViewTranslateTransform.X += movedDistance.X / SpawnersViewScaleTransform.ScaleX;
+            SpawnersViewTranslateTransform.Y += movedDistance.Y / SpawnersViewScaleTransform.ScaleY;
 
-        SpawnersViewTranslateTransform.X += movedDistance.X / SpawnersViewScaleTransform.ScaleX;
-        SpawnersViewTranslateTransform.Y += movedDistance.Y / SpawnersViewScaleTransform.ScaleY;
-
-        previousMousePosition = e.GetPosition(this);
+            previousMousePosition = e.GetPosition(this);
+        }
     }
 
     private void StageAreaCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -392,5 +406,18 @@ public partial class LevelTab : UserControl
         Storyboard.SetTarget(animeTrans, spawnPoint);
         spawnPoint.BeginAnimation(Canvas.TopProperty, animeTrans);
         spawnPoint.BeginAnimation(Canvas.LeftProperty, animeTrans);
+    }
+
+    private void SpawnPoint_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (((LevelEditViewModel)DataContext).CurrentSpawnerVM == ((Border)sender).DataContext)
+        {
+            isSpawnerDraging = true;
+        }
+    }
+
+    private void StageAreaCanvas_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        isSpawnerDraging = false;
     }
 }
